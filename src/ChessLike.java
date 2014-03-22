@@ -11,8 +11,10 @@ public class ChessLike {
 
         //game = RulesParser.parse("./rules/Citadel.xml");
         //game = RulesParser.parse("./rules/Chess.xml");
+      
         //game = RulesParser.parse("./rules/Grand Chess.xml");
-        game = RulesParser.parse("./rules/Maharajah.xml");
+				System.out.println(args[0]);
+        game = RulesParser.parse(args[0]);
         //game = RulesParser.parse("./rules/Shatranj.xml");
         //game = RulesParser.parse("./rules/Shogi.xml");
 
