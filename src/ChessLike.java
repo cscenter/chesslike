@@ -9,14 +9,17 @@ public class ChessLike {
     public static void main(String[] args) {
         Game game;
 
-        //game = RulesParser.parse("./rules/Citadel.xml");
-        //game = RulesParser.parse("./rules/Chess.xml");
-      
-        //game = RulesParser.parse("./rules/Grand Chess.xml");
-				System.out.println(args[0]);
-        game = RulesParser.parse(args[0]);
-        //game = RulesParser.parse("./rules/Shatranj.xml");
-        //game = RulesParser.parse("./rules/Shogi.xml");
+        if (args.length > 0) {
+            System.out.println(args[0]);
+            game = RulesParser.parse(args[0]);
+        } else {
+            //game = RulesParser.parse("./rules/Citadel.xml");
+            //game = RulesParser.parse("./rules/Chess.xml");
+            //game = RulesParser.parse("./rules/Grand Chess.xml");
+            game = RulesParser.parse("./rules/Maharajah.xml");
+            //game = RulesParser.parse("./rules/Shatranj.xml");
+            //game = RulesParser.parse("./rules/Shogi.xml");
+        }
 
         BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
 
@@ -76,7 +79,6 @@ public class ChessLike {
                     game.print();
                 }
             } catch (Exception e) {}
-
         }
     }
 
