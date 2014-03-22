@@ -1,0 +1,142 @@
+<?xml version="1.0"?>
+<game>
+
+    <board xsize = "8" ysize = "8">
+
+        <rect x = "1" y = "1" xsize = "8" ysize = "8"/>
+
+    </board>
+
+    <piece id = "1" name = "King" short = "Kg">
+
+        <moves>
+            <jump x = "0" y = "1"/>
+            <jump x = "1" y = "0"/>
+            <jump x = "0" y = "-1"/>
+            <jump x = "-1" y = "0"/>
+            <jump x = "1" y = "1"/>
+            <jump x = "1" y = "-1"/>
+            <jump x = "-1" y = "1"/>
+            <jump x = "-1" y = "-1"/>
+        </moves>
+
+        <captures diff = "0"/>
+
+    </piece>
+
+    <piece id = "2" name = "Queen" short = "Qn">
+
+        <moves>
+            <slide x = "0" y = "1"/>
+            <slide x = "1" y = "0"/>
+            <slide x = "0" y = "-1"/>
+            <slide x = "-1" y = "0"/>
+            <slide x = "1" y = "1"/>
+            <slide x = "1" y = "-1"/>
+            <slide x = "-1" y = "1"/>
+            <slide x = "-1" y = "-1"/>
+        </moves>
+
+        <captures diff = "0"/>
+
+    </piece>
+
+    <piece id = "3" name = "Rook" short = "Rk">
+
+        <moves>
+            <slide x = "0" y = "1"/>
+            <slide x = "1" y = "0"/>
+            <slide x = "0" y = "-1"/>
+            <slide x = "-1" y = "0"/>
+        </moves>
+
+        <captures diff = "0"/>
+
+    </piece>
+
+    <piece id = "4" name = "Bishop" short = "Bp">
+
+        <moves>
+            <slide x = "1" y = "1"/>
+            <slide x = "1" y = "-1"/>
+            <slide x = "-1" y = "1"/>
+            <slide x = "-1" y = "-1"/>
+        </moves>
+
+        <captures diff = "0"/>
+
+    </piece>
+
+    <piece id = "5" name = "Knight" short = "Kt">
+
+        <moves>
+            <jump x = "2" y = "1"/>
+            <jump x = "1" y = "2"/>
+            <jump x = "2" y = "-1"/>
+            <jump x = "-1" y = "2"/>
+            <jump x = "1" y = "-2"/>
+            <jump x = "-2" y = "1"/>
+            <jump x = "-1" y = "-2"/>
+            <jump x = "-2" y = "-1"/>
+        </moves>
+
+        <captures diff = "0"/>
+
+    </piece>
+
+    <piece id = "6" name = "Pawn" short = "Pn">
+
+        <moves>
+            <jump x = "0" y = "1"/>
+        </moves>
+
+        <captures diff = "1">
+            <jump x = "1" y = "1"/>
+            <jump x = "-1" y = "1"/>
+        </captures>
+
+    </piece>
+
+    <player id = "1" color = "black" name = "Blacks" orientation = "down" turn = "2">
+
+        <start id = "6" x = "1" y = "7"/>
+        <start id = "6" x = "2" y = "7"/>
+        <start id = "6" x = "3" y = "7"/>
+        <start id = "6" x = "4" y = "7"/>
+        <start id = "6" x = "5" y = "7"/>
+        <start id = "6" x = "6" y = "7"/>
+        <start id = "6" x = "7" y = "7"/>
+        <start id = "6" x = "8" y = "7"/>
+        <start id = "3" x = "1" y = "8"/>
+        <start id = "3" x = "8" y = "8"/>
+        <start id = "4" x = "2" y = "8"/>
+        <start id = "4" x = "7" y = "8"/>
+        <start id = "5" x = "3" y = "8"/>
+        <start id = "5" x = "6" y = "8"/>
+        <start id = "1" x = "5" y = "8"/>
+        <start id = "2" x = "4" y = "8"/>
+
+    </player>
+
+    <player id = "2" color = "white" name = "Whites" orientation = "up" turn = "1">
+
+        <start id = "6" x = "1" y = "2"/>
+        <start id = "6" x = "2" y = "2"/>
+        <start id = "6" x = "3" y = "2"/>
+        <start id = "6" x = "4" y = "2"/>
+        <start id = "6" x = "5" y = "2"/>
+        <start id = "6" x = "6" y = "2"/>
+        <start id = "6" x = "7" y = "2"/>
+        <start id = "6" x = "8" y = "2"/>
+        <start id = "3" x = "1" y = "1"/>
+        <start id = "3" x = "8" y = "1"/>
+        <start id = "4" x = "2" y = "1"/>
+        <start id = "4" x = "7" y = "1"/>
+        <start id = "5" x = "3" y = "1"/>
+        <start id = "5" x = "6" y = "1"/>
+        <start id = "1" x = "5" y = "1"/>
+        <start id = "2" x = "4" y = "1"/>
+
+    </player>
+
+</game>
