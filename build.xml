@@ -1,4 +1,4 @@
-<project name="ChessLike" default="default" basedir=".">
+<project name="ChessLike" default="compile" basedir=".">
   <!-- set global properties for this build -->
   <property name="src" location="src"/>
   <!--<property name="build" location="build"/>-->
@@ -13,6 +13,13 @@
   <target name="compile" depends="init">
     <!-- Compile the java code from ${src} into ${build} -->
     <javac srcdir="${src}" destdir="build"/>
+	<javac srcdir="test" destdir="build">
+		<classpath>
+			<pathelement location = ".\src" />
+			<pathelement location = ".\lib\hamcrest-core-1.3.jar"/>
+			<pathelement location = ".\lib\junit-4.11.jar"/>
+		</classpath>
+	</javac>
   </target>
 
   <target name="jar" depends="compile">
@@ -23,7 +30,7 @@
 		</jar>
    </target>
   
-  <target name="build" depends="jar">
+  <target name="run" depends="jar">
         <java jar="ChessLike.jar" fork="true"/> 
 		<delete dir="build"/>
 		<delete file="ChessLike.jar"/>
@@ -35,5 +42,17 @@
     <delete dir="build"/>
 	<delete file="ChessLike.jar"/>
   </target>
+  
+  <target name="test" depends="compile">
+	<junit>
+		<classpath>
+			<pathelement location = ".\src" />
+			<pathelement location = ".\test" />
+			<pathelement location = ".\lib\hamcrest-core-1.3.jar"/>
+			<pathelement location = ".\lib\junit-4.11.jar"/>
+		</classpath>
+		<test name="TestGameMaharajah"/>
+	</junit>
+	</target>
     
 </project>
