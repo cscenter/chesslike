@@ -22,6 +22,36 @@
 
         <captures diff = "0"/>
 
+        <special>
+            <self x = "-2" y = "0"/>
+            <companion id = "3" moved = "0" x = "-3" y = "0" xd = "-1" yd = "0"/>
+            <free x = "-1" y = "0"/>
+            <free x = "-2" y = "0"/>
+        </special>
+
+        <special>
+            <self x = "-2" y = "0"/>
+            <companion id = "3" moved = "0" x = "-4" y = "0" xd = "-1" yd = "0"/>
+            <free x = "-1" y = "0"/>
+            <free x = "-2" y = "0"/>
+            <free x = "-3" y = "0"/>
+        </special>
+
+        <special>
+            <self x = "2" y = "0"/>
+            <companion id = "3" moved = "0" x = "3" y = "0" xd = "1" yd = "0"/>
+            <free x = "1" y = "0"/>
+            <free x = "2" y = "0"/>
+        </special>
+
+        <special>
+            <self x = "2" y = "0"/>
+            <companion id = "3" moved = "0" x = "4" y = "0" xd = "1" yd = "0"/>
+            <free x = "1" y = "0"/>
+            <free x = "2" y = "0"/>
+            <free x = "3" y = "0"/>
+        </special>
+
     </piece>
 
     <piece id = "2" name = "Queen" short = "Qn">
@@ -94,6 +124,30 @@
             <jump x = "1" y = "1"/>
             <jump x = "-1" y = "1"/>
         </captures>
+
+        <special id = "1">
+            <self moved = "0" x = "0" y = "2"/>
+            <free x = "0" y = "1"/>
+            <free x = "0" y = "2"/>
+        </special>
+
+        <special id = "1">
+            <self moved = "0" x = "0" y = "2"/>
+            <prey x = "0" y = "2"/>
+            <free x = "0" y = "1"/>
+        </special>
+
+        <special>
+            <self x = "1" y = "1"/>
+            <prey id = "6" moved = "1" x = "1" y = "0"/>
+            <free x = "1" y = "1"/>
+        </special>
+
+        <special>
+            <self x = "-1" y = "1"/>
+            <prey id = "6" moved = "1" x = "-1" y = "0"/>
+            <free x = "-1" y = "1"/>
+        </special>
 
     </piece>
 
