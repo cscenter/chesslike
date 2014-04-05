@@ -86,6 +86,8 @@ public class Game {
     }
 
     public boolean move(Position start, Position dest) {
+        boolean valid = false;
+
         Piece piece = board.getPiece(start);
 
         if (piece == null || piece.getPieceType() == null || !piece.getPlayer().equals(currentPlayer)) {
@@ -101,8 +103,7 @@ public class Game {
                 board.putPiece(piece, dest);
                 board.putPiece(Piece.FREE_SQUARE, start);
 
-                nextPlayer();
-                return true;
+                valid = true;
             }
         }
 
@@ -120,13 +121,20 @@ public class Game {
 
                             board.putPiece(piece, arrangement.getValue());
                             board.putPiece(Piece.FREE_SQUARE, arrangement.getKey());
+
+                            valid = true;
                         }
                     }
                 }
             }
         }
 
-        return false;
+        if (valid) {
+            nextPlayer();
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public String[][] print() {
