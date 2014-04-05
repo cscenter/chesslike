@@ -1,6 +1,5 @@
 package model.moves;
 
-import model.coord.Entry;
 import model.coord.Position;
 import model.set.Board;
 import model.set.Piece;
@@ -19,8 +18,8 @@ public class Slide implements Move {
         this.capture = capture;
     }
 
-    public List<Entry<Integer, Position>> getDestinations(Position start, Player.Orientation orientation, Board board) {
-        List<Entry<Integer, Position>> destinations = new ArrayList<Entry<Integer, Position>>();
+    public List<Position> getDestinations(Position start, Player.Orientation orientation, Board board) {
+        List< Position> destinations = new ArrayList<Position>();
 
         int xDest = start.getX();
         int yDest = start.getY();
@@ -43,7 +42,7 @@ public class Slide implements Move {
                 if (piece == null || piece.getPieceType() != null) {
                     break;
                 } else {
-                    destinations.add(new Entry<Integer, Position>(getId(), new Position(xDest, yDest)));
+                    destinations.add(new Position(xDest, yDest));
                 }
             }
         } else {
@@ -54,8 +53,9 @@ public class Slide implements Move {
                 Piece piece = board.getPiece(xDest, yDest);
                 if (piece == null) {
                     break;
-                } else if (piece.getPieceType() != null) {
-                    destinations.add(new Entry<Integer, Position>(getId(), new Position(xDest, yDest)));
+                } else if (piece.getPieceType() != null &&
+                        !board.getPiece(start).getPlayer().equals(piece.getPlayer())) {
+                    destinations.add(new Position(xDest, yDest));
                     break;
                 } else {
                     continue;
@@ -72,10 +72,6 @@ public class Slide implements Move {
 
     public Move makeCapture() {
         return new Slide(direction, true);
-    }
-
-    public int getId() {
-        return -1;
     }
 
 }

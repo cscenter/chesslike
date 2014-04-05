@@ -15,6 +15,21 @@ public class SpecialMove {
     Entry<Position, Piece> prey;
     Entry<Entry<Position, Position>, Piece> companion;
     List<Position> free;
+    int id;
+
+    public SpecialMove(
+            Position destination,
+            Entry<Position, Piece> prey,
+            Entry<Entry<Position, Position>, Piece> companion,
+            List<Position> free,
+            int id
+    ) {
+        this.destination = destination;
+        this.prey = prey;
+        this.companion = companion;
+        this.free = free;
+        this.id = id;
+    }
 
     public SpecialMove(
             Position destination,
@@ -26,10 +41,14 @@ public class SpecialMove {
         this.prey = prey;
         this.companion = companion;
         this.free = free;
+        this.id = -1;
     }
 
-    public List<Entry<Position, Position>> getArrangements(Position start, Player.Orientation orientation, Board board) {
-        List<Entry<Position, Position>> arrangements = new ArrayList<Entry<Position, Position>>();
+    public Entry<Integer, ArrayList<Entry<Position, Position>>> getArrangements(Position start, Player.Orientation orientation, Board board) {
+        Entry<Integer, ArrayList<Entry<Position, Position>>> arrangements =
+                new Entry<Integer, ArrayList<Entry<Position, Position>>>(
+                        id, new ArrayList<Entry<Position, Position>>()
+                );
 
         int sign;
         if (orientation == Player.Orientation.UP) {
@@ -61,10 +80,10 @@ public class SpecialMove {
             Piece preyPiece = board.getPiece(actualPrey.getKey());
             if (
                     preyPiece == null ||
-                    preyPiece.getPieceType() == null ||
-                    self.getPlayer().equals(preyPiece.getPlayer()) ||
-                    !preyPiece.equals(actualPrey.getValue())
-            ) {
+                            preyPiece.getPieceType() == null ||
+                            self.getPlayer().equals(preyPiece.getPlayer()) ||
+                            !preyPiece.equals(actualPrey.getValue())
+                    ) {
                 return arrangements;
             }
         }
@@ -88,10 +107,10 @@ public class SpecialMove {
             Piece companionPiece = board.getPiece(actualCompanion.getKey().getKey());
             if (
                     companionPiece == null ||
-                    companionPiece.getPieceType() == null ||
-                    !self.getPlayer().equals(companionPiece.getPlayer()) ||
-                    !companionPiece.equals(actualCompanion.getValue())
-            ) {
+                            companionPiece.getPieceType() == null ||
+                            !self.getPlayer().equals(companionPiece.getPlayer()) ||
+                            !companionPiece.equals(actualCompanion.getValue())
+                    ) {
                 return arrangements;
             }
         }
@@ -112,22 +131,20 @@ public class SpecialMove {
         }
 
         if (actualPrey != null) {
-            arrangements.add(new Entry<Position, Position>(actualPrey.getKey(), null));
+            arrangements.getValue().add(new Entry<Position, Position>(actualPrey.getKey(), null));
+        } else {
+            arrangements.getValue().add(new Entry<Position, Position>(null, null));
         }
 
-        arrangements.add(new Entry<Position, Position>(start, actualDestination));
+        arrangements.getValue().add(new Entry<Position, Position>(start, actualDestination));
 
         if (actualCompanion != null) {
-            arrangements.add(new Entry<Position, Position>(
+            arrangements.getValue().add(new Entry<Position, Position>(
                     actualCompanion.getKey().getKey(), actualCompanion.getKey().getValue())
             );
         }
 
         return arrangements;
-    }
-
-    public int getId() {
-        return -1;
     }
 
 }

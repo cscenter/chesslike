@@ -1,6 +1,5 @@
 package model.moves;
 
-import model.coord.Entry;
 import model.coord.Position;
 import model.set.Board;
 import model.set.Piece;
@@ -19,8 +18,8 @@ public class Jump implements Move {
         this.capture = capture;
     }
 
-    public List<Entry<Integer, Position>> getDestinations(Position start, Player.Orientation orientation, Board board) {
-        List<Entry<Integer, Position>> destinations = new ArrayList<Entry<Integer, Position>>();
+    public List<Position> getDestinations(Position start, Player.Orientation orientation, Board board) {
+        List<Position> destinations = new ArrayList<Position>();
 
         int xDest, yDest;
 
@@ -34,12 +33,15 @@ public class Jump implements Move {
 
         Piece piece = board.getPiece(xDest, yDest);
         if (
-                (piece != null) && (
-                        (piece.getPieceType() == null && capture == false) ||
-                        (piece.getPieceType() != null && capture == true)
+                piece != null && (
+                        (piece.getPieceType() == null &&
+                                capture == false) ||
+                                (piece.getPieceType() != null &&
+                                        !piece.getPlayer().equals(board.getPiece(start).getPlayer())
+                                        && capture == true)
                 )
-        ) {
-            destinations.add(new Entry<Integer, Position>(getId(), new Position(xDest, yDest)));
+                ) {
+            destinations.add(new Position(xDest, yDest));
         }
 
         return destinations;
@@ -51,10 +53,6 @@ public class Jump implements Move {
 
     public Move makeCapture() {
         return new Jump(destination, true);
-    }
-
-    public int getId() {
-        return -1;
     }
 
 }

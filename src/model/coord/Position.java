@@ -10,11 +10,19 @@ public class Position {
         this.y = y;
     }
 
-    public boolean equals(Position position) {
-        if (position.getX() == getX() && position.getY() == getY()) {
-            return true;
+    public boolean equals(Object position) {
+        if (position == null) {
+            return false;
+        } else if (position.getClass().equals(getClass())) {
+            if (((Position) position).getX() == getX() &&
+                    ((Position) position).getY() == getY()) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
         }
-        return false;
     }
 
     public int getX() {
