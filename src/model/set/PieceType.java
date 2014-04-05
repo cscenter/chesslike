@@ -48,8 +48,12 @@ public class PieceType {
     public boolean equals(PieceType type) {
         if (type == null) {
             return false;
-        } else if (id == type.getId()) {
-            return true;
+        } else if (type.getClass().equals(getClass())) {
+            if (id == type.getId()) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }

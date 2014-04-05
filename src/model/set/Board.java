@@ -2,9 +2,7 @@ package model.set;
 
 import model.coord.Position;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class Board {
 
@@ -12,7 +10,6 @@ public class Board {
     private int ySize;
 
     private Piece[][] field;
-    private List<Piece> stock;
 
     public Board(int xSize, int ySize) {
         this.xSize = xSize;
@@ -22,8 +19,6 @@ public class Board {
         for (Piece[] row : field) {
             Arrays.fill(row, null);
         }
-
-        stock = new ArrayList<Piece>();
     }
 
     public Board(Board board) {
@@ -36,8 +31,6 @@ public class Board {
                 field[x][y] = board.getPiece(x, y);
             }
         }
-
-        stock.addAll(board.stock);
     }
 
     public boolean addRectangle(int x, int y, int xsize, int ysize) {
@@ -53,7 +46,7 @@ public class Board {
         } else {
             for (int i = x; i <= xFar; i++) {
                 for (int j = y; j <= yFar; j++) {
-                    field[i][j] = new Piece();
+                    field[i][j] = Piece.FREE_SQUARE;
                 }
             }
 
@@ -65,7 +58,7 @@ public class Board {
         if (x < 0 || x >= xSize || y < 0 || y >= ySize) {
             return false;
         } else {
-            field[x][y] = new Piece();
+            field[x][y] = Piece.FREE_SQUARE;
             return true;
         }
     }
@@ -82,9 +75,6 @@ public class Board {
         } else if (piece == null) {
             return false;
         } else {
-            if (field[x][y].getPieceType() != null) {
-                stock.add(field[x][y]);
-            }
             field[x][y] = piece;
             return true;
         }

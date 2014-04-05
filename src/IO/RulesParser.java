@@ -229,10 +229,10 @@ public class RulesParser {
 
                         if (
                                 xdString != null &&
-                                ydString != null &&
-                                !xdString.equals("") &&
-                                !ydString.equals("")
-                        ) {
+                                        ydString != null &&
+                                        !xdString.equals("") &&
+                                        !ydString.equals("")
+                                ) {
                             companionDestination = new Position(
                                     Integer.parseInt(xdString),
                                     Integer.parseInt(ydString)
@@ -257,7 +257,13 @@ public class RulesParser {
 
                     List<Position> free = new ArrayList<Position>();
 
-                    specialMoves.add(new SpecialMove(destination, prey, companion, free));
+                    int specialId = -1;
+                    String idString = eSpecial.getAttribute("id");
+                    if (!idString.equals("")) {
+                        specialId = Integer.parseInt(idString);
+                    }
+
+                    specialMoves.add(new SpecialMove(destination, prey, companion, free, specialId));
                 }
 
                 int id = Integer.parseInt(ePiece.getAttribute("id"));
@@ -310,7 +316,12 @@ public class RulesParser {
                 turns.put(Integer.parseInt(ePlayer.getAttribute("turn")), player);
             }
 
-            return new Game(board, pieceTypes, players, turns);
+            List turnsList = new ArrayList();
+            for (int i = 1; i <= turns.size(); i++) {
+                turnsList.add(turns.get(i));
+            }
+
+            return new Game(board, pieceTypes, players, turnsList);
 
         } catch (Exception e) {
             e.printStackTrace();

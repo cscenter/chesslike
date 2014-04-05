@@ -96,11 +96,15 @@ public class Player {
         return orientation;
     }
 
-    public boolean equals(Player player) {
+    public boolean equals(Object player) {
         if (player == null) {
             return false;
-        } else if (id == player.getId()) {
-            return true;
+        } else if (player.getClass().equals(getClass())) {
+            if (id == ((Player) player).getId()) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }
