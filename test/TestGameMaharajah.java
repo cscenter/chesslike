@@ -59,6 +59,7 @@ public class TestGameMaharajah {
 		}
     } 
 	
+	@Ignore
     @Test
     public void test01Move() {
 		game = RulesParser.parse("./rules/Maharajah.xml");
@@ -73,6 +74,7 @@ public class TestGameMaharajah {
 		System.out.print("test01 passed");
     } 
 	
+	@Ignore
 	@Test
 	public void test02Move() {
 		game = RulesParser.parse("./rules/Maharajah.xml");
@@ -89,6 +91,7 @@ public class TestGameMaharajah {
 		System.out.print(" test02 passed");
     } 
 	
+	@Ignore
 	@Test
 	public void test03Move() {
 		game = RulesParser.parse("./rules/Maharajah.xml");

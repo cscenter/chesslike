@@ -30,6 +30,8 @@ import model.set.Board;
 import model.set.Piece;
 import model.set.PieceType;
 import model.set.Player;
+import model.set.Player.Color;
+import model.set.Player.Orientation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +39,7 @@ import java.util.Map;
 import java.util.Iterator;
 
 @RunWith(JUnit4.class)
-public class TestPieceType {
+public class TestTurns {
     private Game game;
 	
 	/*
@@ -48,54 +50,29 @@ public class TestPieceType {
 	*/
 	
     @Test
-    public void testChessPieceType() {
+    public void testInitialTurns() {
 		game = RulesParser.parse("./rules/Chess.xml");
-		//
-		List<PieceType> allTypes = game.getPieceTypes();
-		Iterator<PieceType> it = allTypes.iterator();
-		//
-		int id;
-		String name;
+		List<Player> ownTurns = game.getTurns();
+		Iterator<Player> it = ownTurns.iterator();
 		//
 		while (it.hasNext()) {
-			PieceType ownType = it.next();
-			id = ownType.getId();
-			name = ownType.getName();
+			Player ownPlayer = it.next();
+			int id = ownPlayer.getId();
 			System.out.print(id);
 			System.out.print("  ");
+			Color color = ownPlayer.getColor();
+			System.out.print(color);
+			System.out.print("  ");
+			String name = ownPlayer.getName();
 			System.out.print(name);
+			System.out.print("  ");
+			Orientation orientation = ownPlayer.getOrientation();
+			System.out.print(orientation);
+			System.out.print("  ");
 			System.out.print('\n');
 		}
+		int currentTurn = game.getCurrentTurn();
+		System.out.print(currentTurn);
 		assertTrue(true);
     } 
-	
-	@Ignore
-	@Test
-	public void testChessBoardPieceType() {
-		game = RulesParser.parse("./rules/Chess.xml");
-		Board ownBoard = game.getBoard();
-		//
-		int xSize = ownBoard.getXSize();
-		int ySize = ownBoard.getYSize();
-		//
-		System.out.print(xSize);
-		System.out.print('\n');
-		System.out.print(ySize);
-		System.out.print('\n');
-		Piece ownPiece = new Piece();
-		for (int y = 0; y < ySize; ++y) {
-			for (int x = 0; x < xSize; ++x) {
-				ownPiece = ownBoard.getPiece(x, y);
-				PieceType ownType = ownPiece.getPieceType();
-				if (ownType != null) {
-					System.out.print(ownType.getId());
-				}
-				else {
-					System.out.print('-');
-				}
-			}
-			System.out.print('\n');
-		}
-		assertTrue(true);
-	}
 }

@@ -11,6 +11,7 @@ import model.set.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Iterator;
 
 public class Game {
 
@@ -192,8 +193,61 @@ public class Game {
         return board;
     }
 
-	public List<PieceType> getPieceTypes()
-	{
+	public List<PieceType> getPieceTypes() {
 		return pieceTypes;
 	}
+	
+	public List<Player> getTurns() {
+		return turns;
+	}
+	
+	public int getCurrentTurn() {
+		return currentTurn;
+	}
+	
+	public PieceType getPieceTypeFromId(int id) {
+		Iterator<PieceType> it = pieceTypes.iterator();
+		PieceType ownType = it.next();
+		while ((id != ownType.getId()) && (it.hasNext())) {
+			ownType = it.next();
+		}
+		if (id == ownType.getId()) {
+			return ownType;
+		} else {
+			return null;
+		}
+	}
+	
+	public Player getPlayerFromId(int id) {
+		Iterator<Player> it = turns.iterator();
+		Player ownPlayer = it.next();
+		while ((id != ownPlayer.getId()) && (it.hasNext())) {
+			ownPlayer = it.next();
+		}
+		if (id == ownPlayer.getId()) {
+			return ownPlayer;
+		} else {
+			return null;
+		}
+	}
+	
+	public void forcedMove(int [][] newField, int [][] playersId) {
+		int xSize = newField.length;
+		int ySize = newField[0].length;
+		Board newBoard = new Board(xSize, ySize);
+		newBoard.addRectangle(0, 0, xSize, ySize);
+		//
+		for (int x = 0; x < ySize; x++) {
+            for (int y = ySize - 1; y > -1; y--) {
+                if (newField[x][y] != 0) {
+					int id = newField[x][y];
+					int playerId = playersId[x][y];
+					Piece ownPiece =  new Piece(this.getPieceTypeFromId(id), this.getPlayerFromId(playerId));
+					newBoard.putPiece(ownPiece, x, y);
+				}
+            }
+        }
+		board = newBoard;
+	}
+	//
 }

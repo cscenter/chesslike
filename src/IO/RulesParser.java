@@ -139,10 +139,6 @@ public class RulesParser {
                 }
 
                 int id = Integer.parseInt(ePiece.getAttribute("id"));
-				//
-				System.out.print(id);
-				System.out.print('\n');
-				//
                 PieceType pieceType = new PieceType(
                         id, ePiece.getAttribute("name"), ePiece.getAttribute("short"), moves
                 );
