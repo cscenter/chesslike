@@ -192,4 +192,8 @@ public class Game {
         return board;
     }
 
+	public List<PieceType> getPieceTypes()
+	{
+		return pieceTypes;
+	}
 }

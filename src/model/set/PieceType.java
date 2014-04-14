@@ -15,6 +15,7 @@ public class PieceType {
     private List<SpecialMove> specialMoves;
 
     public PieceType(int id, String name, String shortName, List<Move> moves) {
+		this.id = id;
         this.name = name;
         this.shortName = shortName;
         this.moves = moves;

@@ -39,13 +39,33 @@ import java.util.Map;
 public class TestGameMaharajah {
     private Game game;
 	
+	@Test
+    public void testPawnPossibleMove() {
+		int x, y;
+		x = 3;
+		y = 6;
+		ArrayList<Integer> xDest = new ArrayList();
+		ArrayList<Integer> yDest = new ArrayList();
+		xDest.add(3);
+		yDest.add(5);
+		xDest.add(3);
+		yDest.add(4);
+		int size = xDest.size();
+		boolean expected = true;
+		for (int i = 0; i < size; ++i) {
+			game = RulesParser.parse("./rules/Maharajah.xml");
+			boolean result = game.move(new Position(x, y), new Position(xDest.get(i), yDest.get(i)));
+			assertEquals(expected, result);
+		}
+    } 
+	
     @Test
     public void test01Move() {
 		game = RulesParser.parse("./rules/Maharajah.xml");
-        int x = 4;
-        int y = 7;
-        int xDest = 4;
-        int yDest = 5;
+        int x = 3;
+        int y = 6;
+        int xDest = 3;
+        int yDest = 4;
         
         boolean result = game.move(new Position(x, y), new Position(xDest, yDest));
         boolean expected = true;
@@ -56,25 +76,26 @@ public class TestGameMaharajah {
 	@Test
 	public void test02Move() {
 		game = RulesParser.parse("./rules/Maharajah.xml");
-        int x = 4;
-        int y = 7;
-        int xDest = 4;
-        int yDest = 6;
-        
+        int x = 3;
+        int y = 6;
+        int xDest = 3;
+        int yDest = 5;
+        String piece = game.getBoard().getPiece(3, 6).getPieceType().getName();
         boolean result = game.move(new Position(x, y), new Position(xDest, yDest));
         boolean expected = true;
         //assertTrue("Error", expected == result);
 		assertEquals(expected, result);
+		System.out.print(piece);
 		System.out.print(" test02 passed");
     } 
 	
 	@Test
 	public void test03Move() {
 		game = RulesParser.parse("./rules/Maharajah.xml");
-        int x = 2;
-        int y = 7;
-        int xDest = 2;
-        int yDest = 6;
+        int x = 1;
+        int y = 6;
+        int xDest = 1;
+        int yDest = 5;
         
         boolean result = game.move(new Position(x, y), new Position(xDest, yDest));
         boolean expected = true;
@@ -83,15 +104,16 @@ public class TestGameMaharajah {
 			fail("Not equals in 03");
 		}
 		System.out.print(" test03 passed");
-    } 
+    }
 	
+	@Ignore
 	@Test
 	public void test04Move() {
 		game = RulesParser.parse("./rules/Maharajah.xml");
-        int x = 5;
-        int y = 1;
-        int xDest = 5;
-        int yDest = 2;
+        int x = 4;
+        int y = 0;
+        int xDest = 4;
+        int yDest = 1;
         
         boolean result = game.move(new Position(x, y), new Position(xDest, yDest));
         boolean expected = true;

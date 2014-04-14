@@ -41,7 +41,6 @@ public class RulesParser {
             }
             Element eBoard = (Element) eBoards.item(0);
 
-
             Board board = new Board(
                     Integer.parseInt(eBoard.getAttribute("xsize")),
                     Integer.parseInt(eBoard.getAttribute("xsize"))
@@ -58,7 +57,7 @@ public class RulesParser {
                         Integer.parseInt(eRect.getAttribute("ysize"))
                 );
             }
-
+            
             NodeList eFields = eBoard.getElementsByTagName("square");
             for (int i = 0; i < eFields.getLength(); i++) {
                 Element eField = (Element) eFields.item(i);
@@ -140,6 +139,10 @@ public class RulesParser {
                 }
 
                 int id = Integer.parseInt(ePiece.getAttribute("id"));
+				//
+				System.out.print(id);
+				System.out.print('\n');
+				//
                 PieceType pieceType = new PieceType(
                         id, ePiece.getAttribute("name"), ePiece.getAttribute("short"), moves
                 );

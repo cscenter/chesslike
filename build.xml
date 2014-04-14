@@ -32,9 +32,8 @@
   
   <target name="run" depends="jar">
         <java jar="ChessLike.jar" fork="true"/> 
-		<delete dir="build"/>
-		<delete file="ChessLike.jar"/>
-		<!--args="../rules/Chess.xml"-->
+		<!--<delete dir="build"/> -->
+		<!--<delete file="ChessLike.jar"/> -->
    </target>
    
   <target name="clean">
@@ -50,7 +49,9 @@
 			<pathelement location = ".\lib\hamcrest-core-1.3.jar"/>
 			<pathelement location = ".\lib\junit-4.11.jar"/>
 		</classpath>
+		<formatter type="brief" usefile="false"/>
 		<test name="TestGameMaharajah"/>
+		<test name="TestPieceType"/>
 	</junit>
 	<!--<junit>
 		<classpath>
