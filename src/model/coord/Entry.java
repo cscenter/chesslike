@@ -2,8 +2,8 @@ package model.coord;
 
 public class Entry<K, V> {
 
-    K key;
-    V value;
+    private K key;
+    private V value;
 
     public Entry(K key, V value) {
         this.key = key;

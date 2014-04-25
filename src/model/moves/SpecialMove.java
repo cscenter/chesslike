@@ -11,11 +11,11 @@ import java.util.List;
 
 public class SpecialMove {
 
-    Position destination;
-    Entry<Position, Piece> prey;
-    Entry<Entry<Position, Position>, Piece> companion;
-    List<Position> free;
-    int id;
+    private Position destination;
+    private Entry<Position, Piece> prey;
+    private Entry<Entry<Position, Position>, Piece> companion;
+    private List<Position> free;
+    private int id;
 
     public SpecialMove(
             Position destination,
