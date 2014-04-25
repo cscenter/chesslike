@@ -45,7 +45,7 @@ public class ChessLike {
                     System.out.print("y = ");
                     int y = Integer.parseInt(bufferRead.readLine());
 
-                    System.out.println(TextViewer.print(game.printDestinations(x - 1, y - 1), ""));
+                    System.out.println(TextViewer.print(game.printDestinations(x-1, y-1), ""));
                 } else if (action.equals("move")) {
                     System.out.print("Start:\nx = ");
                     int x = Integer.parseInt(bufferRead.readLine());

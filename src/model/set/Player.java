@@ -88,7 +88,7 @@ public class Player {
         return name;
     }
 
-    public List<Piece> getPieceIds() {
+    public List<Piece> getPieces() {
         return pieces;
     }
 

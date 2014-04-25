@@ -11,19 +11,48 @@ import java.util.List;
 
 public class SpecialMove {
 
+    public static class Arrangement {
+        private Position start;
+        private Position finish;
+
+        public Arrangement(Position start, Position finish) {
+            this.start = start;
+            this.finish = finish;
+        }
+
+        public Position getStart() {
+            return start;
+        }
+
+        public Position getFinish() {
+            return finish;
+        }
+
+        public void setStart() {
+            this.start = start;
+        }
+
+        public void setFinish() {
+            this.finish = finish;
+        }
+    }
+
+    private Integer idNeeded;
     private Position destination;
     private Entry<Position, Piece> prey;
-    private Entry<Entry<Position, Position>, Piece> companion;
+    private Entry<Arrangement, Piece> companion;
     private List<Position> free;
     private int id;
 
     public SpecialMove(
+            Integer idNeeded,
             Position destination,
             Entry<Position, Piece> prey,
-            Entry<Entry<Position, Position>, Piece> companion,
+            Entry<Arrangement, Piece> companion,
             List<Position> free,
             int id
     ) {
+        this.idNeeded = idNeeded;
         this.destination = destination;
         this.prey = prey;
         this.companion = companion;
@@ -32,11 +61,13 @@ public class SpecialMove {
     }
 
     public SpecialMove(
+            Integer idNeeded,
             Position destination,
             Entry<Position, Piece> prey,
-            Entry<Entry<Position, Position>, Piece> companion,
+            Entry<Arrangement, Piece> companion,
             List<Position> free
     ) {
+        this.idNeeded = idNeeded;
         this.destination = destination;
         this.prey = prey;
         this.companion = companion;
@@ -44,10 +75,10 @@ public class SpecialMove {
         this.id = -1;
     }
 
-    public Entry<Integer, ArrayList<Entry<Position, Position>>> getArrangements(Position start, Player.Orientation orientation, Board board) {
-        Entry<Integer, ArrayList<Entry<Position, Position>>> arrangements =
-                new Entry<Integer, ArrayList<Entry<Position, Position>>>(
-                        id, new ArrayList<Entry<Position, Position>>()
+    public Entry<Integer, ArrayList<Arrangement>> getArrangements(Position start, Player.Orientation orientation, Board board) {
+        Entry<Integer, ArrayList<Arrangement>> arrangements =
+                new Entry<Integer, ArrayList<Arrangement>>(
+                        id, new ArrayList<Arrangement>()
                 );
 
         int sign;
@@ -63,7 +94,9 @@ public class SpecialMove {
         );
 
         Piece self = board.getPiece(start);
-        if (self == null || self.getPieceType() == null) {
+        if (self == null || self.getPieceType() == null ||
+                (idNeeded != null && !self.getLastMoveId().equals(idNeeded)))
+        {
             return arrangements;
         }
 
@@ -88,23 +121,23 @@ public class SpecialMove {
             }
         }
 
-        Entry<Entry<Position, Position>, Piece> actualCompanion = null;
+        Entry<Arrangement, Piece> actualCompanion = null;
         if (companion != null) {
-            actualCompanion = new Entry<Entry<Position, Position>, Piece>(
-                    new Entry<Position, Position>(
+            actualCompanion = new Entry<Arrangement, Piece>(
+                    new Arrangement(
                             new Position(
-                                    start.getX() + sign * companion.getKey().getKey().getX(),
-                                    start.getY() + sign * companion.getKey().getKey().getY()
+                                    start.getX() + sign * companion.getKey().getStart().getX(),
+                                    start.getY() + sign * companion.getKey().getStart().getY()
                             ),
                             new Position(
-                                    start.getX() + sign * companion.getKey().getValue().getX(),
-                                    start.getY() + sign * companion.getKey().getValue().getY()
+                                    start.getX() + sign * companion.getKey().getFinish().getX(),
+                                    start.getY() + sign * companion.getKey().getFinish().getY()
                             )
                     ),
                     companion.getValue()
             );
 
-            Piece companionPiece = board.getPiece(actualCompanion.getKey().getKey());
+            Piece companionPiece = board.getPiece(actualCompanion.getKey().getStart());
             if (
                     companionPiece == null ||
                             companionPiece.getPieceType() == null ||
@@ -131,16 +164,16 @@ public class SpecialMove {
         }
 
         if (actualPrey != null) {
-            arrangements.getValue().add(new Entry<Position, Position>(actualPrey.getKey(), null));
+            arrangements.getValue().add(new Arrangement(actualPrey.getKey(), null));
         } else {
-            arrangements.getValue().add(new Entry<Position, Position>(null, null));
+            arrangements.getValue().add(new Arrangement(null, null));
         }
 
-        arrangements.getValue().add(new Entry<Position, Position>(start, actualDestination));
+        arrangements.getValue().add(new Arrangement(start, actualDestination));
 
         if (actualCompanion != null) {
-            arrangements.getValue().add(new Entry<Position, Position>(
-                    actualCompanion.getKey().getKey(), actualCompanion.getKey().getValue())
+            arrangements.getValue().add(new Arrangement(
+                    actualCompanion.getKey().getStart(), actualCompanion.getKey().getFinish())
             );
         }
 

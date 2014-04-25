@@ -161,6 +161,13 @@ public class RulesParser {
                             Integer.parseInt(eSelf.getAttribute("y"))
                     );
 
+                    Integer moveIdSelf = null;
+
+                    String moveIdSelfString = eSelf.getAttribute("moved");
+                    if (moveIdSelfString != null && !moveIdSelfString.equals("")) {
+                        moveIdSelf = Integer.parseInt(moveIdSelfString);
+                    }
+
                     Entry<Position, Piece> prey = null;
 
                     NodeList ePreys = eSpecial.getElementsByTagName("prey");
@@ -196,7 +203,7 @@ public class RulesParser {
                         );
                     }
 
-                    Entry<Entry<Position, Position>, Piece> companion = null;
+                    Entry<SpecialMove.Arrangement, Piece> companion = null;
 
                     NodeList eCompanions = eSpecial.getElementsByTagName("companion");
                     if (eCompanions.getLength() == 1) {
@@ -240,8 +247,8 @@ public class RulesParser {
                             companionDestination = companionPosition;
                         }
 
-                        companion = new Entry<Entry<Position, Position>, Piece>(
-                                new Entry<Position, Position>(
+                        companion = new Entry<SpecialMove.Arrangement, Piece>(
+                                new SpecialMove.Arrangement(
                                         companionPosition,
                                         companionDestination
                                 ),
@@ -262,7 +269,7 @@ public class RulesParser {
                         specialId = Integer.parseInt(idString);
                     }
 
-                    specialMoves.add(new SpecialMove(destination, prey, companion, free, specialId));
+                    specialMoves.add(new SpecialMove(moveIdSelf, destination, prey, companion, free, specialId));
                 }
 
                 int id = Integer.parseInt(ePiece.getAttribute("id"));

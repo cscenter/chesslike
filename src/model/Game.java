@@ -58,13 +58,13 @@ public class Game {
         return destinations;
     }
 
-    public ArrayList<Entry<Integer, ArrayList<Entry<Position, Position>>>> getArrangements(int x, int y) {
+    public ArrayList<Entry<Integer, ArrayList<SpecialMove.Arrangement>>> getArrangements(int x, int y) {
         return getArrangements(new Position(x, y));
     }
 
-    public ArrayList<Entry<Integer, ArrayList<Entry<Position, Position>>>> getArrangements(Position start) {
-        ArrayList<Entry<Integer, ArrayList<Entry<Position, Position>>>> arrangements =
-                new ArrayList<Entry<Integer, ArrayList<Entry<Position,Position>>>>();
+    public ArrayList<Entry<Integer, ArrayList<SpecialMove.Arrangement>>> getArrangements(Position start) {
+        ArrayList<Entry<Integer, ArrayList<SpecialMove.Arrangement>>> arrangements =
+                new ArrayList<Entry<Integer, ArrayList<SpecialMove.Arrangement>>>();
 
         Piece piece = board.getPiece(start);
         if (piece == null || piece.getPieceType() == null) {
@@ -74,8 +74,7 @@ public class Game {
         List<SpecialMove> specialMoves = piece.getPieceType().getSpecialMoves();
         for (SpecialMove specialMove : specialMoves) {
             arrangements.add(
-                    (Entry<Integer, ArrayList<Entry<Position, Position>>>)
-                            specialMove.getArrangements(start, piece.getPlayer().getOrientation(), board)
+                    specialMove.getArrangements(start, piece.getPlayer().getOrientation(), board)
             );
         }
 
@@ -105,23 +104,28 @@ public class Game {
                 board.putPiece(Piece.FREE_SQUARE, start);
 
                 valid = true;
+                break;
             }
         }
 
-        ArrayList<Entry<Integer, ArrayList<Entry<Position, Position>>>> allArrangements = getArrangements(start);
+        ArrayList<Entry<Integer, ArrayList<SpecialMove.Arrangement>>> allArrangements = getArrangements(start);
 
-        for (Entry<Integer, ArrayList<Entry<Position, Position>>> arrangements : allArrangements) {
-            if (arrangements.getValue().size() != 0 && arrangements.getValue().get(1).getValue().equals(dest)) {
-                for (Entry<Position, Position> arrangement : arrangements.getValue()) {
-                    if (arrangement.getKey()!= null) {
-                        if (arrangement.getValue() == null) {
-                            board.putPiece(Piece.FREE_SQUARE, arrangement.getValue());
+        for (Entry<Integer, ArrayList<SpecialMove.Arrangement>> block : allArrangements) {
+            if (block.getValue() != null
+                    && block.getValue().size() != 0
+                    && block.getValue().get(1) != null
+                    && block.getValue().get(1).getFinish()!= null
+                    && block.getValue().get(1).getFinish().equals(dest)) {
+                for (SpecialMove.Arrangement arrangement : block.getValue()) {
+                    if (arrangement.getStart()!= null) {
+                        if (arrangement.getFinish() == null) {
+                            board.putPiece(Piece.FREE_SQUARE, arrangement.getStart());
                         } else {
-                            piece = board.getPiece(arrangement.getKey());
-                            piece.setLastMoveId(arrangements.getKey());
+                            piece = board.getPiece(arrangement.getStart());
+                            piece.setLastMoveId(block.getKey());
 
-                            board.putPiece(piece, arrangement.getValue());
-                            board.putPiece(Piece.FREE_SQUARE, arrangement.getKey());
+                            board.putPiece(piece, arrangement.getFinish());
+                            board.putPiece(Piece.FREE_SQUARE, arrangement.getStart());
 
                             valid = true;
                         }
@@ -176,6 +180,25 @@ public class Game {
                 s[destination.getX()][destination.getY()] = " O ";
             } else {
                 s[destination.getX()][destination.getY()] = " X ";
+            }
+        }
+
+        ArrayList<Entry<Integer, ArrayList<SpecialMove.Arrangement>>> blocks = getArrangements(x, y);
+        for (Entry<Integer, ArrayList<SpecialMove.Arrangement>> block : blocks) {
+
+            ArrayList<SpecialMove.Arrangement> arrangements = block.getValue();
+            if (arrangements == null || arrangements.size() < 2) {
+                continue;
+            }
+
+            if(arrangements.get(0) != null && arrangements.get(0).getStart() != null) {
+                Position preyPosition = block.getValue().get(0).getStart();
+                s[preyPosition.getX()][preyPosition.getY()] = " X ";
+            }
+
+            if(block.getValue().get(1) != null) {
+                Position destination = block.getValue().get(1).getFinish();
+                s[destination.getX()][destination.getY()] = " O ";
             }
         }
 
