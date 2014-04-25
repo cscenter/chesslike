@@ -131,12 +131,6 @@
             <free x = "0" y = "2"/>
         </special>
 
-        <special id = "1">
-            <self moved = "0" x = "0" y = "2"/>
-            <prey x = "0" y = "2"/>
-            <free x = "0" y = "1"/>
-        </special>
-
         <special>
             <self x = "1" y = "1"/>
             <prey id = "6" moved = "1" x = "1" y = "0"/>
