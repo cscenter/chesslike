@@ -13,13 +13,15 @@ public class PieceType {
     private String shortName;
     private List<Move> moves;
     private List<SpecialMove> specialMoves;
+    int weight;
 
-    public PieceType(int id, String name, String shortName, List<Move> moves) {
+    public PieceType(int id, String name, String shortName, List<Move> moves, int weight) {
 		this.id = id;
         this.name = name;
         this.shortName = shortName;
         this.moves = moves;
         this.specialMoves = new ArrayList<SpecialMove>();
+        this.weight = weight;
     }
 
     public void addSpecialMoves(List<SpecialMove> specialMoves) {
@@ -44,6 +46,10 @@ public class PieceType {
 
     public List<SpecialMove> getSpecialMoves() {
         return specialMoves;
+    }
+
+    public int getWeight() {
+        return weight;
     }
 
     public boolean equals(PieceType type) {

@@ -7,7 +7,7 @@
 
     </board>
 
-    <piece id = "1" name = "King" short = "Kg">
+    <piece id = "1" name = "King" short = "Kg" weight = "1000">
 
         <moves>
             <jump x = "0" y = "1"/>
@@ -24,7 +24,7 @@
 
     </piece>
 
-    <piece id = "2" name = "Rook" short = "Rk">
+    <piece id = "2" name = "Rook" short = "Rk" weight = "5">
 
         <moves>
             <slide x = "0" y = "1"/>
@@ -37,7 +37,7 @@
 
     </piece>
 
-    <piece id = "3" name = "Bishop" short = "Bp">
+    <piece id = "3" name = "Bishop" short = "Bp" weight = "3">
 
         <moves>
             <slide x = "1" y = "1"/>
@@ -50,7 +50,7 @@
 
     </piece>
 
-    <piece id = "4" name = "Gold" short = "Gd">
+    <piece id = "4" name = "Gold" short = "Gd" weight = "4">
 
         <moves>
             <jump x = "0" y = "1"/>
@@ -65,7 +65,7 @@
 
     </piece>
 
-    <piece id = "5" name = "Silver" short = "Sr">
+    <piece id = "5" name = "Silver" short = "Sr" weight = "3">
 
         <moves>
             <jump x = "0" y = "1"/>
@@ -79,7 +79,7 @@
 
     </piece>
 
-    <piece id = "6" name = "Knight" short = "Kt">
+    <piece id = "6" name = "Knight" short = "Kt" weight = "2">
 
         <moves>
             <jump x = "2" y = "1"/>
@@ -96,7 +96,7 @@
 
     </piece>
 
-    <piece id = "7" name = "Lance" short = "Le">
+    <piece id = "7" name = "Lance" short = "Le" weight = "2">
 
         <moves>
             <slide x = "0" y = "1"/>
@@ -106,7 +106,7 @@
 
     </piece>
 
-    <piece id = "8" name = "Pawn" short = "Pn">
+    <piece id = "8" name = "Pawn" short = "Pn" weight = "1">
 
         <moves>
             <jump x = "0" y = "1"/>
@@ -116,7 +116,7 @@
 
     </piece>
 
-    <piece id = "9" name = "Promoted Rook" short = "PR">
+    <piece id = "9" name = "Promoted Rook" short = "PR" weight = "7">
 
         <moves>
             <slide x = "0" y = "1"/>
@@ -133,7 +133,7 @@
 
     </piece>
 
-    <piece id = "10" name = "Promoted Bishop" short = "PB">
+    <piece id = "10" name = "Promoted Bishop" short = "PB" weight = "6">
 
         <moves>
             <slide x = "1" y = "1"/>
@@ -150,7 +150,7 @@
 
     </piece>
 
-    <piece id = "11" name = "Promoted Silver" short = "PS">
+    <piece id = "11" name = "Promoted Silver" short = "PS" weight = "4">
 
         <moves>
             <jump x = "0" y = "1"/>
@@ -165,7 +165,7 @@
 
     </piece>
 
-    <piece id = "12" name = "Promoted Knight" short = "PK">
+    <piece id = "12" name = "Promoted Knight" short = "PK" weight = "4">
 
         <moves>
             <jump x = "0" y = "1"/>
@@ -180,7 +180,7 @@
 
     </piece>
 
-    <piece id = "13" name = "Promoted Lance" short = "PL">
+    <piece id = "13" name = "Promoted Lance" short = "PL" weight = "4">
 
         <moves>
             <jump x = "0" y = "1"/>
@@ -195,7 +195,7 @@
 
     </piece>
 
-    <piece id = "14" name = "Promoted Pawn" short = "PP">
+    <piece id = "14" name = "Promoted Pawn" short = "PP" weight = "4">
 
         <moves>
             <jump x = "0" y = "1"/>

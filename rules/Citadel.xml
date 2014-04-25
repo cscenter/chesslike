@@ -11,7 +11,7 @@
 
     </board>
 
-    <piece id = "1" name = "King" short = "Kg">
+    <piece id = "1" name = "King" short = "Kg" weight = "1000">
 
         <moves>
             <jump x = "0" y = "1"/>
@@ -28,7 +28,7 @@
 
     </piece>
 
-    <piece id = "2" name = "General" short = "Gl">
+    <piece id = "2" name = "General" short = "Gl" weight = "2">
 
         <moves>
             <jump x = "1" y = "1"/>
@@ -41,7 +41,7 @@
 
     </piece>
 
-    <piece id = "3" name = "Chariot" short = "Ct">
+    <piece id = "3" name = "Chariot" short = "Ct" weight = "5">
 
         <moves>
             <slide x = "0" y = "1"/>
@@ -54,7 +54,7 @@
 
     </piece>
 
-    <piece id = "4" name = "Elephant" short = "Et">
+    <piece id = "4" name = "Elephant" short = "Et" weight = "2">
 
         <moves>
             <jump x = "2" y = "2"/>
@@ -67,7 +67,7 @@
 
     </piece>
 
-    <piece id = "5" name = "Horse" short = "He">
+    <piece id = "5" name = "Horse" short = "He" weight = "3">
 
         <moves>
             <jump x = "2" y = "1"/>
@@ -84,7 +84,7 @@
 
     </piece>
 
-    <piece id = "6" name = "Pawn" short = "Pn">
+    <piece id = "6" name = "Pawn" short = "Pn" weight = "1">
 
         <moves>
             <jump x = "0" y = "1"/>
@@ -97,7 +97,7 @@
 
     </piece>
 
-    <piece id = "7" name = "War Machine" short = "WM">
+    <piece id = "7" name = "War Machine" short = "WM" weight = "3">
 
         <moves>
             <slide x = "1" y = "1"/>

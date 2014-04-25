@@ -140,7 +140,8 @@ public class RulesParser {
 
                 int id = Integer.parseInt(ePiece.getAttribute("id"));
                 PieceType pieceType = new PieceType(
-                        id, ePiece.getAttribute("name"), ePiece.getAttribute("short"), moves
+                        id, ePiece.getAttribute("name"), ePiece.getAttribute("short"), moves,
+                        Integer.parseInt(ePiece.getAttribute("weight"))
                 );
                 pieceTypes.add(pieceType);
                 pieceTypesMap.put(id, pieceType);
