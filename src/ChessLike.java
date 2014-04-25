@@ -10,15 +10,7 @@ import java.io.InputStreamReader;
 public class ChessLike {
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                MainFrame ex = new MainFrame(RulesParser.parse("./rules/Grand Chess.xml"));
-                ex.setVisible(true);
-            }
-        });
-
-        /*Game game;
+        Game game;
 
         if (args.length > 0) {
             System.out.println(args[0]);
@@ -73,7 +65,7 @@ public class ChessLike {
                     System.out.println(TextViewer.print(game.print(), ""));
                 }
             } catch (Exception e) {}
-        }*/
+        }
     }
 
 }
