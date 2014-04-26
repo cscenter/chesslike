@@ -31,6 +31,7 @@ import model.set.Piece;
 import model.set.PieceType;
 import model.set.Player;
 
+import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -42,19 +43,21 @@ import javax.swing.JOptionPane;
 public class TestForcedMoveChess {
     private Game game;
 	
-	@Ignore
 	@Test
     public void testForcedMove() {
 		try {
 			Scanner sc = new Scanner(new File("./rules/myBoard.txt"));
+			//
 			int xSize = sc.nextInt();
 			int ySize = sc.nextInt();
+			//
 			int [][] newField = new int[xSize][ySize];
 			for (int y = 0; y < ySize; ++y) {
 				for (int x = 0; x < xSize; ++x) {
 					newField[x][y] = sc.nextInt();
 				}
 			}
+			//
 			int [][] playersId = new int[xSize][ySize];
 			for (int y = 0; y < ySize; ++y) {
 				for (int x = 0; x < xSize; ++x) {
@@ -62,9 +65,11 @@ public class TestForcedMoveChess {
 				}
 			}
 			sc.close();
-			game = RulesParser.parse("./rules/Chess.xml");
-			game.forcedMove(newField, playersId);
 			//
+			game = RulesParser.parse("./rules/Chess.xml");
+			game.forcedMove(newField, playersId, 0);
+			
+			/*
 			Board ownBoard = game.getBoard();
 			System.out.print(xSize);
 			System.out.print('\n');
@@ -84,12 +89,14 @@ public class TestForcedMoveChess {
 				}
 				System.out.print('\n');
 			}
+			*/
 		} catch(Exception e) {
 			JOptionPane.showMessageDialog(null, "File not found");
 		}
 		assertTrue(true);
     } 	
 	
+	@Ignore
 	@Test
 	public void testForcedMove01() {
 		int xSize = 8;
@@ -131,7 +138,7 @@ public class TestForcedMoveChess {
 		playersId[7][6] = 1;
 		
 		game = RulesParser.parse("./rules/Chess.xml");
-		game.forcedMove(newField, playersId);
+		game.forcedMove(newField, playersId, 0);
 			//
 		Board ownBoard = game.getBoard();
 		System.out.print(xSize);
