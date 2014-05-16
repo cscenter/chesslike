@@ -121,5 +121,41 @@ public class Board {
     public int getYSize() {
         return ySize;
     }
-
-}
+	
+	public boolean equals(Board compareBoard) {
+        if (compareBoard == null) {
+            return false;
+        } else if (compareBoard.getClass().equals(getClass())) {
+			if ((compareBoard.getXSize() == getXSize()) && (compareBoard.getYSize() == getYSize())) {
+				boolean flag = true;
+				int x = 0;
+				while ((x < xSize) && (flag == true)) {
+					int y = 0;
+					while ((y < ySize) && (flag == true)) {
+						if (field[x][y] != null) {
+							if (field[x][y].equals(compareBoard.getPiece(x, y))) {
+								++y;
+							} else {
+								flag = false;
+							}
+						} else {
+							++y;
+						}
+					}
+					++x;
+				}
+				if (flag == true) {
+					return true;
+				} else {
+					return false;
+				}
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+							
+							
+	}

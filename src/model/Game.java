@@ -18,7 +18,7 @@ public class Game {
     private Board board;
     private List<PieceType> pieceTypes;
     private List<Player> players;
-
+    
     private List<Player> turns;
     private Player currentPlayer;
     private int currentTurn;
@@ -254,7 +254,7 @@ public class Game {
 		}
 	}
 	
-	public void forcedMove(int [][] newField, int [][] playersId) {
+	public void forcedMove(int [][] newField, int [][] playersId, int [][] specialMovesId, int ownTurn) {
 		int xSize = newField.length;
 		int ySize = newField[0].length;
 		Board newBoard = new Board(xSize, ySize);
@@ -265,12 +265,19 @@ public class Game {
                 if (newField[x][y] != 0) {
 					int id = newField[x][y];
 					int playerId = playersId[x][y];
-					Piece ownPiece =  new Piece(this.getPieceTypeFromId(id), this.getPlayerFromId(playerId));
+					Piece ownPiece =  new Piece(this.getPieceTypeFromId(id), this.getPlayerFromId(playerId), specialMovesId[x][y]);
 					newBoard.putPiece(ownPiece, x, y);
 				}
             }
         }
 		board = newBoard;
+		currentTurn = ownTurn;
+        currentTurn %= turns.size();
+        currentPlayer = turns.get(currentTurn);
+	}
+	
+	public void forcedTurn() {
+		nextPlayer();
 	}
 	//
 }

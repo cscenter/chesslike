@@ -63,7 +63,7 @@ public class Player {
             return null;
         }
     }
-
+    
     public static Player.Orientation getOrientation(String orientationName) {
         orientationName = orientationName.toLowerCase();
 

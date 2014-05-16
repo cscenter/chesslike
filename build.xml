@@ -51,9 +51,8 @@
 		</classpath>
 		<formatter type="brief" usefile="false"/>
 		<test name="TestGameMaharajah"/>
-		<test name="TestPieceType"/>
-		<test name="TestTurns"/>
 		<test name="TestForcedMoveChess"/>
+		<test name="TestGameChess"/>
 	</junit>
 	<!--<junit>
 		<classpath>
