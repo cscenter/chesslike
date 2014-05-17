@@ -9,6 +9,11 @@ public class Position {
         this.x = x;
         this.y = y;
     }
+	
+	public Position() {
+		this.x = 0;
+		this.y = 0;
+	}
 
     public boolean equals(Object position) {
         if (position == null) {
@@ -25,6 +30,11 @@ public class Position {
         }
     }
 
+	public String toString() {
+		String string = x + " " + y;
+		return string;
+	}	
+	
     public int getX() {
         return x;
     }

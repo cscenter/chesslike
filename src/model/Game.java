@@ -279,5 +279,69 @@ public class Game {
 	public void forcedTurn() {
 		nextPlayer();
 	}
-	//
+	
+	public ArrayList<Entry<Position, Position> > allDestinations() {
+		ArrayList<Entry<Position, Position> > destinations = new ArrayList<Entry<Position, Position> >();
+		
+		int xSize = board.getXSize();
+		int ySize = board.getYSize();
+		
+ 		for (int x = 0; x < xSize; ++x) {
+			for (int y = 0; y < ySize; ++y) {
+				Piece ownPiece = board.getPiece(x, y);
+				Position startPosition = new Position(x, y);
+				if (currentPlayer.equals(ownPiece.getPlayer())) {
+					List<Position> ownDestinations = getDestinations(x, y);
+					Iterator<Position> it = ownDestinations.iterator();
+					while (it.hasNext()) {
+						Position destPosition = it.next();
+						destinations.add(new Entry(startPosition, destPosition));
+					}
+				}
+			}
+		}
+		
+		return destinations;
+	}	
+	
+	public int estimation() {
+		int xSize = board.getXSize();
+		int ySize = board.getYSize();
+		
+		int ownEstimation = 0;
+		
+		for (int x = 0; x < xSize; ++x) {
+			for (int y = 0; y < ySize; ++y) {
+				Player ownPlayer = board.getPiece(x, y).getPlayer();
+				PieceType ownPieceType = board.getPiece(x, y).getPieceType();
+				if (ownPieceType != null) {
+					if (currentPlayer.equals(ownPlayer)) {
+						ownEstimation = ownEstimation + ownPieceType.getWeight();
+					} else {
+						ownEstimation = ownEstimation - ownPieceType.getWeight();
+					}
+				}
+			}
+		}
+		return ownEstimation;
+	}
+	
+	public Entry<Boolean, Player> endOfGame() {
+		Integer ownEstimation = estimation();
+		if (ownEstimation < -500) {
+			Iterator<Player> it = turns.iterator();
+			Player ownPlayer = it.next();
+			if (ownPlayer == currentPlayer) {
+				return new Entry<Boolean, Player>((Boolean)true, it.next());
+			} else {
+				return new Entry<Boolean, Player>((Boolean)true, ownPlayer);
+			}
+		} else {
+			return new Entry<Boolean, Player>((Boolean)false, currentPlayer);
+		}
+	}
+	
+	public Game clone() throws CloneNotSupportedException {
+             return (Game)super.clone();
+    }
 }
