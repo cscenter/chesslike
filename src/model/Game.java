@@ -1,5 +1,6 @@
 package model;
 
+import model.coord.Route;
 import model.coord.Entry;
 import model.coord.Position;
 import model.moves.Move;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Iterator;
 
-public class Game {
+public class Game implements Cloneable {
 
     private Board board;
     private List<PieceType> pieceTypes;
@@ -280,8 +281,8 @@ public class Game {
 		nextPlayer();
 	}
 	
-	public ArrayList<Entry<Position, Position> > allDestinations() {
-		ArrayList<Entry<Position, Position> > destinations = new ArrayList<Entry<Position, Position> >();
+	public ArrayList<Route> allDestinations() {
+		ArrayList<Route> destinations = new ArrayList<Route>();
 		
 		int xSize = board.getXSize();
 		int ySize = board.getYSize();
@@ -295,7 +296,7 @@ public class Game {
 					Iterator<Position> it = ownDestinations.iterator();
 					while (it.hasNext()) {
 						Position destPosition = it.next();
-						destinations.add(new Entry(startPosition, destPosition));
+						destinations.add(new Route(startPosition, destPosition));
 					}
 				}
 			}
@@ -342,6 +343,8 @@ public class Game {
 	}
 	
 	public Game clone() throws CloneNotSupportedException {
-             return (Game)super.clone();
+		Game newGame = (Game)super.clone();
+		newGame.board = (Board)board.clone();
+		return newGame;
     }
 }

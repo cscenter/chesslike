@@ -2,7 +2,7 @@ package model.set;
 
 
 
-public class Piece {
+public class Piece implements Cloneable{
 
     private PieceType pieceType;
     private Player player;
@@ -13,7 +13,7 @@ public class Piece {
         this.player = player;
         this.lastMoveId = lastMovedId;
     }
-
+	
     public Piece(PieceType pieceType, Player player) {
         this.pieceType = pieceType;
         this.player = player;
@@ -61,5 +61,9 @@ public class Piece {
             return false;
         }
     }
-
+	
+	public Piece clone() throws CloneNotSupportedException {
+		return new Piece (getPieceType(), getPlayer(), getLastMoveId());
+	}
+		
 }

@@ -4,7 +4,7 @@ import model.coord.Position;
 
 import java.util.Arrays;
 
-public class Board {
+public class Board implements Cloneable{
 
     private int xSize;
     private int ySize;
@@ -156,5 +156,16 @@ public class Board {
 			return false;
 		}
 	}
-							
+	
+	public Board clone() throws CloneNotSupportedException {
+        Board newBoard = (Board)super.clone();
+		newBoard.field = new Piece[xSize][ySize];
+		for (int x = 0; x < xSize; ++ x) {
+			for (int y = 0; y < ySize; ++y) {
+				newBoard.field[x][y] = field[x][y].clone();
+			}
+		}
+		return newBoard;
+    }
+	
 }
