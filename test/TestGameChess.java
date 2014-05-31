@@ -31,6 +31,8 @@ import model.set.Piece;
 import model.set.PieceType;
 import model.set.Player;
 
+import java.io.File;
+import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -39,72 +41,199 @@ import javax.swing.JOptionPane;
 @RunWith(JUnit4.class)
 public class TestGameChess {
     private Game game;
+	private Game compareGame;
 	private Board ownBoard;
-	private Piece ownPiece1;
-	private Piece ownPiece2;
-	private PieceType ownPieceType;
+	private Piece ownPiece;
 	
 	@Test
     public void testPawnPossibleMove() {
-		int x, y;
-		x = 3;
-		y = 1;
-		ArrayList<Integer> xDest = new ArrayList();
-		ArrayList<Integer> yDest = new ArrayList();
-		xDest.add(3);
-		yDest.add(2);
-		xDest.add(3);
-		yDest.add(3);
-		int size = xDest.size();
+		int yWhite = 1;
+		int yBlack = 6;
 		boolean expected = true;
-		for (int i = 0; i < size; ++i) {
+		boolean result;
+		for (int x = 0; x < 8; ++x) {
 			game = RulesParser.parse("./rules/Chess.xml");
-			ownBoard = game.getBoard();
-			ownPiece2 = ownBoard.getPiece(x, y);
-			boolean result = game.move(new Position(x, y), new Position(xDest.get(i), yDest.get(i)));
+			result = game.move(new Position(x, yWhite), new Position(x, yWhite + 1));
 			assertEquals("turn is not correct", expected, result);
-			//
-			ownBoard = game.getBoard();
-			ownPiece1 = new Piece();
-			ownPiece2 = ownBoard.getPiece(x, y);
-			//
-			assertTrue("board is not correct", ownPiece1.equals(ownPiece2));
-			ownPiece2 = ownBoard.getPiece(xDest.get(i), yDest.get(i));
-			assertEquals("board is not correct", ownPiece2.getPieceType().getId(), 6);
+			result = game.move(new Position(x, yBlack), new Position(x, yBlack - 1));
+			assertEquals("turn is not correct", expected, result);
+			game = RulesParser.parse("./rules/Chess.xml");
+			result = game.move(new Position(x, yWhite), new Position(x, yWhite + 2));
+			assertEquals("turn is not correct", expected, result);
+			result = game.move(new Position(x, yBlack), new Position(x, yBlack - 2));
+			assertEquals("turn is not correct", expected, result);
 		}
     } 
 	
 	@Test
     public void testPawnImpossibleMove() {
-		try {
-			game = RulesParser.parse("./rules/Chess.xml");
-			int x, y;
-			x = 3;
-			y = 1;
-			boolean expected = false;
-			ownBoard = game.getBoard();
-			ownPiece1 = ownBoard.getPiece(x, y);
-			//
+		game = RulesParser.parse("./rules/Chess.xml");
+		int yWhite = 1;
+		boolean expected = false;
+		boolean result;
+		//
+		for (int x = 0; x < 8; ++x) {
 			for (Integer xDest = 0; xDest < 8; ++xDest) {
 				for (Integer yDest = 0; yDest < 8; ++yDest) {
-					if ( (xDest != 3) || ( (yDest != 3) && (yDest != 2) ) )
-					{
-						ownPiece2 = ownBoard.getPiece(xDest, yDest);
-						boolean result = game.move(new Position(x, y), new Position(xDest, yDest));
+					if ( (xDest != x) || ( (yDest != yWhite + 1) && (yDest != yWhite + 2) ) ) {
+						result = game.move(new Position(x, yWhite), new Position(xDest, yDest));
 						assertEquals("turn is not correct", expected, result);
-					
-						Board ownModifiedBoard = game.getBoard();
-
-						assertEquals("board is not correct in dest" + " " + yDest + " " + yDest, ownPiece2, ownModifiedBoard.getPiece(xDest, yDest));
-						assertEquals("board is not correct in start" + " " + x + " " + y, ownPiece1, ownModifiedBoard.getPiece(x, y));
 					}
 				}
 			}
-		}catch(Exception e) {
-			JOptionPane.showMessageDialog(null, "Null pointer");
 		}
 		//
-		assertTrue(true);
+		game.forcedTurn();
+		int yBlack = 6;
+		for (int x = 0; x < 8; ++x) {
+			for (Integer xDest = 0; xDest < 8; ++xDest) {
+				for (Integer yDest = 0; yDest < 8; ++yDest) {
+					if ( (xDest != x) || ( (yDest != yWhite - 1) && (yDest != yWhite - 2) ) ) {
+						result = game.move(new Position(x, yWhite), new Position(xDest, yDest));
+						assertEquals("turn is not correct", expected, result);
+					}
+				}
+			}
+		}
 	}
+	
+	@Test
+    public void testImpossibleMove() {
+		try {
+			game = RulesParser.parse("./rules/Chess.xml");
+			Scanner sc = new Scanner(new File("./test/impossibleMoveBoard.txt"));
+			//
+			int xSize = 8;
+			int ySize = 8;
+			//
+			int [][] newField = new int[xSize][ySize];
+			for (int y = ySize - 1; y > -1; --y) {
+				for (int x = 0; x < xSize; ++x) {
+					newField[x][y] = sc.nextInt();
+				}
+			}
+			//
+			int [][] playersId = new int[xSize][ySize];
+			for (int y = ySize - 1; y > -1; --y) {
+				for (int x = 0; x < xSize; ++x) {
+					playersId[x][y] = sc.nextInt();
+				}
+			}
+			//
+			int [][] specialMovesId = new int[xSize][ySize];
+			for (int y = ySize - 1; y > -1; --y) {
+				for (int x = 0; x < xSize; ++x) {
+					specialMovesId[x][y] = sc.nextInt();
+				}
+			}
+			int ownTurn = sc.nextInt();
+			
+			sc.close();
+			
+			game.forcedMove(newField, playersId, specialMovesId, ownTurn);
+		} catch(Exception e) {
+			System.out.print("File not found");
+		}
+		boolean expected = false;
+		//Bishop
+		boolean result = game.move(new Position(4, 2), new Position(2, 0));
+		assertEquals("Bishop have captured own Pawn", expected, result);
 		
+		result = game.move(new Position(4, 2), new Position(6, 1));
+		assertEquals("Bishops`s move is incorrect", expected, result);
+		
+		result = game.move(new Position(4, 2), new Position(7, -1));
+		assertEquals("Bishop have moved out of board", expected, result);
+		//Knight
+		result = game.move(new Position(3, 2), new Position(2, 0));
+		assertEquals("Knight have captured own Pawn", expected, result);
+		
+		result = game.move(new Position(3, 2), new Position(4, 0));
+		assertEquals("Knight have captured own Rock", expected, result);
+		
+		result = game.move(new Position(6, 1), new Position(7, -1));
+		assertEquals("Knight have moved out of board", expected, result);
+		//Rock
+		result = game.move(new Position(4, 0), new Position(4, 2));
+		assertEquals("Rock have captured own Bishop", expected, result);
+		
+		result = game.move(new Position(4, 0), new Position(4, 4));
+		assertEquals("Rock`s move is incorrect", expected, result);
+		//Pawn
+		result = game.move(new Position(2, 0), new Position(2, 1));
+		assertEquals("Pawns`s move is incorrect", expected, result);
+		
+		result = game.move(new Position(2, 0), new Position(2, 2));
+		assertEquals("Pawns`s move is incorrect", expected, result);
+		
+		result = game.move(new Position(2, 0), new Position(2, -1));
+		assertEquals("Pawn have moved out of board", expected, result);
+	}
+	
+	@Test
+	public void testDebuts() {
+		try {
+			compareGame = RulesParser.parse("./rules/Chess.xml");
+			Scanner sc = new Scanner(new File("./test/Debuts.txt"));
+			int debutsNumber = sc.nextInt();
+		
+			int xSize = 8;
+			int ySize = 8;
+			
+			for (int i = 0; i < debutsNumber; ++i) {
+				game = RulesParser.parse("./rules/Chess.xml");
+			
+				int [][] newField = new int[xSize][ySize];
+				for (int y = ySize - 1; y > -1; --y) {
+					for (int x = 0; x < xSize; ++x) {
+						newField[x][y] = sc.nextInt();
+					}
+				}
+			
+				int [][] playersId = new int[xSize][ySize];
+				for (int y = ySize - 1; y > -1; --y) {
+					for (int x = 0; x < xSize; ++x) {
+						playersId[x][y] = sc.nextInt();
+					}
+				}
+			
+				int [][] specialMovesId = new int[xSize][ySize];
+				for (int y = ySize - 1; y > -1; --y) {
+					for (int x = 0; x < xSize; ++x) {
+						specialMovesId[x][y] = sc.nextInt();
+					}
+				}
+				int ownTurn = sc.nextInt();
+				
+				compareGame.forcedMove(newField, playersId, specialMovesId, ownTurn);
+				
+				//
+				int turnsNumber = sc.nextInt();
+				int x, y, xDest, yDest;
+				for (int j = 0; j < turnsNumber; ++j) {
+					x = sc.nextInt();
+					y = sc.nextInt();
+					xDest = sc.nextInt();
+					yDest = sc.nextInt();
+					assertTrue("failed in " + (i + 1) + " debut in " + (j + 1) + " turn", game.move(x, y, xDest, yDest));
+				}
+				
+				Board gameBoard = game.getBoard();
+				Board compareBoard = compareGame.getBoard();
+				/*
+				String [][] reflex = game.print();
+				for (int k = ySize - 1; k > - 1; --k) {
+					for (int l = 0; l < xSize; ++l) {
+						System.out.print(reflex[l][k]);
+					}
+					System.out.print('\n');
+				}
+				*/
+				assertTrue("Game is not correct", gameBoard.equals(compareBoard));
+			}
+			sc.close();
+		} catch(Exception e) {
+			System.out.print(e.toString());
+		}
+	}
 }

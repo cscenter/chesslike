@@ -46,7 +46,7 @@ public class TestForcedMoveChess {
 	@Test
     public void testForcedMove() {
 		try {
-			Scanner sc = new Scanner(new File("./rules/myBoard.txt"));
+			Scanner sc = new Scanner(new File("./test/myBoard.txt"));
 			//
 			int xSize = sc.nextInt();
 			int ySize = sc.nextInt();

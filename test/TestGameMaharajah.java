@@ -40,22 +40,17 @@ public class TestGameMaharajah {
     private Game game;
 	
 	@Test
-    public void testPawnPossibleMove() {
-		int x, y;
-		x = 3;
-		y = 6;
-		ArrayList<Integer> xDest = new ArrayList();
-		ArrayList<Integer> yDest = new ArrayList();
-		xDest.add(3);
-		yDest.add(5);
-		xDest.add(3);
-		yDest.add(4);
-		int size = xDest.size();
+	public void testPawnPossibleMove() {
+		int yBlack = 6;
 		boolean expected = true;
-		for (int i = 0; i < size; ++i) {
+		boolean result;
+		for (int x = 0; x < 8; ++x) {
 			game = RulesParser.parse("./rules/Maharajah.xml");
-			boolean result = game.move(new Position(x, y), new Position(xDest.get(i), yDest.get(i)));
-			assertEquals(expected, result);
+			result = game.move(new Position(x, yBlack), new Position(x, yBlack - 1));
+			assertTrue("turn from " + x + " " + yBlack + " to " + x + " " + (yBlack - 1) + " is not correct", (expected == result));
+			game = RulesParser.parse("./rules/Maharajah.xml");
+			result = game.move(new Position(x, yBlack), new Position(x, yBlack - 2));
+			assertTrue("turn from " + x + " " + yBlack + " to " + x + " " + (yBlack - 2) + " is not correct", (expected == result));
 		}
     } 
 	
@@ -71,7 +66,6 @@ public class TestGameMaharajah {
         boolean result = game.move(new Position(x, y), new Position(xDest, yDest));
         boolean expected = true;
 		assertEquals(expected, result);
-		System.out.print("test01 passed");
     } 
 	
 	@Ignore
@@ -85,10 +79,7 @@ public class TestGameMaharajah {
         String piece = game.getBoard().getPiece(3, 6).getPieceType().getName();
         boolean result = game.move(new Position(x, y), new Position(xDest, yDest));
         boolean expected = true;
-        //assertTrue("Error", expected == result);
 		assertEquals(expected, result);
-		System.out.print(piece);
-		System.out.print(" test02 passed");
     } 
 	
 	@Ignore
@@ -106,7 +97,6 @@ public class TestGameMaharajah {
 		if(result != expected) {
 			fail("Not equals in 03");
 		}
-		System.out.print(" test03 passed");
     }
 	
 	@Ignore
@@ -124,6 +114,5 @@ public class TestGameMaharajah {
 		if(result != expected) {
 			fail("Not equals in 04");
 		}
-		System.out.print(" test04 passed");
     } 
 }
