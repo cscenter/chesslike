@@ -94,4 +94,8 @@ public class AlphaBetaAI implements AI {
 		
 		return answer;
 	}
+
+    public boolean isAI() {
+        return true;
+    }
 }

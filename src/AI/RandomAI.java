@@ -39,5 +39,9 @@ public class RandomAI implements AI {
 		Route answer = new Route(destinations.get(choice).getStartPosition(), destinations.get(choice).getDestPosition());
 		
 		return answer;
-	}	
+	}
+
+    public boolean isAI() {
+        return true;
+    }
 }

@@ -5,12 +5,15 @@ import javax.swing.*;
 
 public class ChessLike {
 
+    private static MainFrame ex;
+
     public static void main(String[] args) {
 
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                MainFrame ex = new MainFrame(RulesParser.parse("./rules/Chess.xml"));
+                ex = new MainFrame(RulesParser.parse("./rules/Chess.xml"));
+                ex.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 ex.setVisible(true);
             }
         });

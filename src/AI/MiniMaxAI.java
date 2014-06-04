@@ -92,4 +92,8 @@ public class MiniMaxAI implements AI {
 		
 		return answer;
 	}
+
+    public boolean isAI() {
+        return true;
+    }
 }

@@ -3,7 +3,9 @@ package view;
 import model.Game;
 import model.coord.Entry;
 import model.coord.Position;
+import model.coord.Route;
 import model.set.Piece;
+import AI.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -21,94 +23,15 @@ public class BoardPanel extends JPanel {
         trying
     }
 
-    State state;
-    Game game;
-    Position current;
-    Square[][] boardGrid;
+    private State state;
+    private Game game;
+    private Position current;
+    private Square[][] boardGrid;
+    private AI[] players;
 
-    public void onClick(Entry<Integer, Integer> xy) {
-        onClick(xy.getKey(), xy.getValue());
-    }
+    public BoardPanel(Game game, AI first, AI second) {
+        this.players = new AI[]{first, second};
 
-    public void onClick(int x, int y) {
-        if (state == State.waiting) {
-            int[][] s = game.getTypes(x, y);
-            boolean flag = false;
-            for (int xx = 0; xx < game.getBoard().getXSize(); xx++) {
-                for (int yy = 0; yy < game.getBoard().getYSize(); yy++) {
-                    if (s[xx][yy] == 1) {
-                        boardGrid[xx][yy].setBackground(Color.cyan);
-                        flag = true;
-                    } else if (s[xx][yy] == 2) {
-                        boardGrid[xx][yy].setBackground(Color.red);
-                        flag = true;
-                    } else {
-                        boardGrid[xx][yy].setBaseColor();
-                    }
-                }
-            }
-            if (flag) {
-                current = new Position(x, y);
-                state = State.trying;
-            }
-        } else if (state == State.trying) {
-            boolean flag = game.move(current.getX(), current.getY(), x, y);
-            paint();
-            current = null;
-            state = State.waiting;
-        }
-    }
-
-    public class onMousePressed implements ActionListener {
-        Entry<Integer, Integer> xy;
-
-        public onMousePressed(int x, int y) {
-            super();
-            this.xy = new Entry<Integer, Integer>(x, y);
-        }
-
-        public onMousePressed(Entry<Integer, Integer> xy) {
-            super();
-            this.xy = xy;
-        }
-
-        public void actionPerformed(ActionEvent e) {
-            onClick(xy);
-        }
-    }
-
-
-    public static class Square extends JButton {
-
-        Color baseColor;
-
-        public Square(Color color){
-            baseColor = color;
-            setBackground(color);
-        }
-
-        void setBaseColor() {
-            setBackground(baseColor);
-        }
-
-    }
-
-    void paint() {
-        for (int x = 0; x < game.getBoard().getXSize(); x++) {
-            for (int y = game.getBoard().getYSize() - 1; y >= 0; y--) {
-                boardGrid[x][y].setBaseColor();
-                try {
-                    Piece piece = game.getBoard().getPiece(x, y);
-                    ImageIcon icon = new ImageIcon(piece.getPieceType().getIcon(piece.getPlayer().getId())) ;
-                    boardGrid[x][y].setIcon(icon);
-                } catch(Exception e) {
-                    boardGrid[x][y].setIcon(null);
-                }
-            }
-        }
-    }
-
-    public BoardPanel(Game game) {
         setLayout(new GridLayout(game.getBoard().getXSize(), game.getBoard().getYSize()));
         this.game = game;
         this.state = State.waiting;
@@ -139,5 +62,102 @@ public class BoardPanel extends JPanel {
             bows = !bows;
         }
         paint();
+    }
+
+    public void onClick(Entry<Integer, Integer> xy) {
+        onClick(xy.getKey(), xy.getValue());
+    }
+
+    public void onClick(int x, int y) {
+
+        AI currentPlayer = players[game.getCurrentTurn()];
+
+        if (currentPlayer.isAI() == false) {
+            if (x != -1) {
+
+                if (state == State.waiting) {
+                    int[][] s = game.getTypes(x, y);
+                    boolean flag = false;
+                    for (int xx = 0; xx < game.getBoard().getXSize(); xx++) {
+                        for (int yy = 0; yy < game.getBoard().getYSize(); yy++) {
+                            if (s[xx][yy] == 1) {
+                                boardGrid[xx][yy].setBackground(Color.cyan);
+                                flag = true;
+                            } else if (s[xx][yy] == 2) {
+                                boardGrid[xx][yy].setBackground(Color.red);
+                                flag = true;
+                            } else {
+                                boardGrid[xx][yy].setBaseColor();
+                            }
+                        }
+                    }
+                    if (flag) {
+                        current = new Position(x, y);
+                        state = State.trying;
+                    }
+                } else if (state == State.trying) {
+                    boolean flag = game.move(current.getX(), current.getY(), x, y);
+                    paint();
+                    current = null;
+                    state = State.waiting;
+                }
+            }
+
+        } else {
+            Route route = currentPlayer.getRoute(game);
+            boolean flag = game.move(route.getStartPosition(), route.getDestPosition());
+            paint();
+            current = null;
+            state = State.waiting;
+        }
+
+    }
+
+    public class onMousePressed implements ActionListener {
+        Entry<Integer, Integer> xy;
+
+        public onMousePressed(int x, int y) {
+            super();
+            this.xy = new Entry<Integer, Integer>(x, y);
+        }
+
+        public onMousePressed(Entry<Integer, Integer> xy) {
+            super();
+            this.xy = xy;
+        }
+
+        public void actionPerformed(ActionEvent e) {
+            onClick(xy);
+        }
+    }
+
+    public static class Square extends JButton {
+
+        Color baseColor;
+
+        public Square(Color color){
+            baseColor = color;
+            setBackground(color);
+        }
+
+        void setBaseColor() {
+            setBackground(baseColor);
+        }
+
+    }
+
+    void paint() {
+        for (int x = 0; x < game.getBoard().getXSize(); x++) {
+            for (int y = game.getBoard().getYSize() - 1; y >= 0; y--) {
+                boardGrid[x][y].setBaseColor();
+                try {
+                    Piece piece = game.getBoard().getPiece(x, y);
+                    ImageIcon icon = new ImageIcon(piece.getPieceType().getIcon(piece.getPlayer().getId())) ;
+                    boardGrid[x][y].setIcon(icon);
+                } catch(Exception e) {
+                    boardGrid[x][y].setIcon(null);
+                }
+            }
+        }
     }
 }
