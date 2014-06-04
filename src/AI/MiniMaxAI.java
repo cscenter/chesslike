@@ -23,15 +23,24 @@ public class MiniMaxAI implements AI {
 	
 	final private int depth;
 	final private Random choice; 
+	final private int modulus;
+	
+	public MiniMaxAI(int ownDepth, int ownSeed, int ownModulus) {
+		depth = ownDepth;
+		choice = new Random(ownSeed);
+		modulus = ownModulus;
+	}
 	
 	public MiniMaxAI(int ownDepth, int ownSeed) {
 		depth = ownDepth;
 		choice = new Random(ownSeed);
+		modulus = 5;
 	}
 	
 	public MiniMaxAI(int ownDepth) {
 		depth = ownDepth;
 		choice = new Random();
+		modulus = 5;
 	}
 	
 	public Route getRoute(Game game) {
@@ -41,7 +50,7 @@ public class MiniMaxAI implements AI {
 	
 	public Entry<Integer, Route> miniMax(int ownDepth, Game ownGame) {
 			
-		Entry<Integer, Route> answer = new Entry(-2000, new Route(new Position(0, 0), new Position(0, 0)));
+		Entry<Integer, Route> answer = new Entry(-2500, null);
 		
 		ArrayList<Route> destinations = ownGame.allDestinations();
 		
@@ -53,7 +62,6 @@ public class MiniMaxAI implements AI {
 				Position dest = destinations.get(i).getDestPosition();
 				
 				sonGame.move(start, dest);
-				int modulus = 2;
 				if (ownDepth == 1) {
 					int ownEstimation = -sonGame.estimation();
 					if (answer.getKey() < ownEstimation) {

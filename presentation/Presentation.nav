@@ -29,10 +29,8 @@
 \headcommand {\beamer@subsectionpages {7}{8}}
 \headcommand {\slideentry {4}{0}{9}{9/9}{}{0}}
 \headcommand {\beamer@framepages {9}{9}}
-\headcommand {\slideentry {4}{0}{10}{10/10}{}{0}}
-\headcommand {\beamer@framepages {10}{10}}
-\headcommand {\beamer@partpages {1}{10}}
-\headcommand {\beamer@subsectionpages {9}{10}}
-\headcommand {\beamer@sectionpages {9}{10}}
-\headcommand {\beamer@documentpages {10}}
-\headcommand {\def \inserttotalframenumber {10}}
+\headcommand {\beamer@partpages {1}{9}}
+\headcommand {\beamer@subsectionpages {9}{9}}
+\headcommand {\beamer@sectionpages {9}{9}}
+\headcommand {\beamer@documentpages {9}}
+\headcommand {\def \inserttotalframenumber {9}}

@@ -23,30 +23,39 @@ public class AlphaBetaAI implements AI {
 	
 	final private int depth;
 	final private Random choice; 
+	final private int modulus;
+	
+	public AlphaBetaAI(int ownDepth, int ownSeed, int ownModulus) {
+		depth = ownDepth;
+		choice = new Random(ownSeed);
+		modulus = ownModulus;
+	}
 	
 	public AlphaBetaAI(int ownDepth, int ownSeed) {
 		depth = ownDepth;
 		choice = new Random(ownSeed);
+		modulus = 5;
 	}
 	
 	public AlphaBetaAI(int ownDepth) {
 		depth = ownDepth;
 		choice = new Random();
+		modulus = 5;
 	}
 	
 	public Route getRoute(Game game) {
-		Entry<Integer, Route> weightRoute = alphaBeta(depth, game, 2000);
+		Entry<Integer, Route> weightRoute = alphaBeta(depth, game, 2500);
 		return weightRoute.getValue();
 	}
 	
 	public Entry<Integer, Route> alphaBeta(int ownDepth, Game ownGame, int target) {
 			
-		Entry<Integer, Route> answer = new Entry(-2000, new Route(new Position(0, 0), new Position(0, 0)));
+		Entry<Integer, Route> answer = new Entry(-2500, null);
 		
 		ArrayList<Route> destinations = ownGame.allDestinations();
 		int i = 0;
 		
-		while ((i < destinations.size()) && (answer.getKey() < target)) {
+		while ((i < destinations.size()) && (answer.getKey() <= target)) {
 			try {
 				Game sonGame = ownGame.clone();
 			
@@ -54,7 +63,6 @@ public class AlphaBetaAI implements AI {
 				Position dest = destinations.get(i).getDestPosition();
 				
 				sonGame.move(start, dest);
-				int modulus = 2;
 				if (ownDepth == 1) {
 					int ownEstimation = -sonGame.estimation();
 					if (answer.getKey() < ownEstimation) {

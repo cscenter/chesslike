@@ -12,6 +12,7 @@ import model.coord.Entry;
 import model.coord.Position;
 import model.moves.Move;
 import model.set.Board;
+import model.set.Board;
 import model.set.Piece;
 import model.set.PieceType;
 import model.set.Player;
@@ -25,7 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.Date;
 
 import java.io.File;
 import javax.swing.JOptionPane;
@@ -38,24 +38,39 @@ public class AITest {
 	
 	public static void main(String[] args) {
 		
-		Date myDate = new Date();
-		System.out.print(myDate.getTime() % 100000);
-		System.out.print('\n');
-		
         Game game = RulesParser.parse("./rules/Chess.xml");
 			
 		BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
 			
 		try {
-			AI ownAI = new MiniMaxAI(4, 1);
-			//AI ownAI = new MiniMaxAI(4, 2);
-			AI randomPlayer = new AlphaBetaAI(6, 5);
+			//AI firstAI = new MiniMaxAI(2, 1);
+			//AI secondAI = new AlphaBetaAI(4, 2);
+			
+			//AI firstAI = new AlphaBetaAI(4, 2);
+			//AI secondAI = new MiniMaxAI(2, 1);
+			
+			//AI firstAI = new MiniMaxAI(4, 1);
+			//AI secondAI = new AlphaBetaAI(6, 2);
+			
+			//AI firstAI = new MiniMaxAI(4, 2);
+			//AI secondAI = new MiniMaxAI(2, 1);
+			
+			AI firstAI = new MiniMaxAI(2, 2);
+			AI secondAI = new AlphaBetaAI(4, 1);
+			
+			//AI firstAI = new MiniMaxAI(2, 2);
+			//AI secondAI = new MiniMaxAI(4, 1);
 			int i = 0;
+			long firstTime = 0;
+			long secondTime = 0;
+			long first;
 			while (game.endOfGame().getKey() == (Boolean) false) {
 				if (i % 2 == 0) {
 					++i;
 					
-					Route answer =  ownAI.getRoute(game);
+					first = System.currentTimeMillis();
+					
+					Route answer =  firstAI.getRoute(game);
 					System.out.print(answer.getStartPosition() + "    " + answer.getDestPosition());
 					System.out.print('\n');
 					
@@ -65,11 +80,15 @@ public class AITest {
 					System.out.print(game.move(start, dest) + "  turn number: " + i);
 					System.out.print('\n');
 					System.out.println(TextViewer.print(game.print(), ""));
+					
+					firstTime = firstTime + System.currentTimeMillis() - first;
 					
 				} else {
 					++i;
 				
-					Route answer =  randomPlayer.getRoute(game);
+					first = System.currentTimeMillis();
+				
+					Route answer =  secondAI.getRoute(game);
 					System.out.print(answer.getStartPosition() + "    " + answer.getDestPosition());
 					System.out.print('\n');
 					
@@ -79,12 +98,13 @@ public class AITest {
 					System.out.print(game.move(start, dest) + "  turn number: " + i);
 					System.out.print('\n');
 					System.out.println(TextViewer.print(game.print(), ""));
+					
+					secondTime = secondTime + System.currentTimeMillis() - first;
 				}
 			}
 			
-			myDate = new Date();
-			System.out.print(myDate.getTime() % 100000);
-			System.out.print('\n');
+			System.out.print("firstTime: " + firstTime + '\n');
+			System.out.print("secondTime: " + secondTime + '\n');
 			
 		} catch (Exception e) {
 			System.out.print(e.toString());

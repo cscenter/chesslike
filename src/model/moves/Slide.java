@@ -53,9 +53,10 @@ public class Slide implements Move {
                 Piece piece = board.getPiece(xDest, yDest);
                 if (piece == null) {
                     break;
-                } else if (piece.getPieceType() != null &&
-                        !board.getPiece(start).getPlayer().equals(piece.getPlayer())) {
-                    destinations.add(new Position(xDest, yDest));
+                } else if (piece.getPieceType() != null) {
+                    if (!board.getPiece(start).getPlayer().equals(piece.getPlayer())) {
+                        destinations.add(new Position(xDest, yDest));
+                    }
                     break;
                 } else {
                     continue;

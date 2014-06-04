@@ -15,7 +15,9 @@ import org.w3c.dom.NodeList;
 import model.set.Piece;
 import model.set.Player;
 
+import javax.imageio.ImageIO;
 import javax.xml.parsers.DocumentBuilderFactory;
+import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,6 +34,9 @@ public class RulesParser {
             File rulesFile = new File(fileName);
             Document rules = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(rulesFile);
             rules.getDocumentElement().normalize();
+
+            Element ePlayerNumber = (Element) rules.getElementsByTagName("players").item(0);
+            int numberOfPlayers = Integer.parseInt(ePlayerNumber.getAttribute("number"));
 
             //board
             NodeList eBoards = rules.getElementsByTagName("board");
@@ -138,10 +143,22 @@ public class RulesParser {
                     }
                 }
 
+                NodeList eImages = ePiece.getElementsByTagName("image");
+
+                Image[] images = new Image[numberOfPlayers];
+
+                for (int j = 0; j < eImages.getLength(); j++) {
+                    try {
+                        images[j] = ImageIO.read(new File(((Element) eImages.item(j)).getAttribute("address")));
+                        images[j] = images[j].getScaledInstance(80, 80, Image.SCALE_SMOOTH);
+                    } catch (Exception e) {}
+                }
+
                 int id = Integer.parseInt(ePiece.getAttribute("id"));
                 PieceType pieceType = new PieceType(
                         id, ePiece.getAttribute("name"), ePiece.getAttribute("short"), moves,
-                        Integer.parseInt(ePiece.getAttribute("weight"))
+                        Integer.parseInt(ePiece.getAttribute("weight")),
+                        images
                 );
                 pieceTypes.add(pieceType);
                 pieceTypesMap.put(id, pieceType);
@@ -264,6 +281,15 @@ public class RulesParser {
 
                     List<Position> free = new ArrayList<Position>();
 
+                    NodeList eFrees = eSpecial.getElementsByTagName("free");
+
+                    for (int j = 0; j < eFrees.getLength(); j++) {
+                        Element eFree = (Element) eFrees.item(j);
+                        int x = Integer.parseInt(eFree.getAttribute("x"));
+                        int y = Integer.parseInt(eFree.getAttribute("y"));
+                        free.add(new Position(x, y));
+                    }
+
                     int specialId = -1;
                     String idString = eSpecial.getAttribute("id");
                     if (!idString.equals("")) {
@@ -293,7 +319,7 @@ public class RulesParser {
                 Element ePlayer = (Element) ePlayers.item(i);
                 NodeList ePieces = ePlayer.getElementsByTagName("start");
 
-                int playerId = Integer.parseInt(ePlayer.getAttribute("id"));
+                int playerId = Integer.parseInt(ePlayer.getAttribute("id")) - 1;
 
                 Player player = new Player(
                         playerId,

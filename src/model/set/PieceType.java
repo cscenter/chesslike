@@ -3,6 +3,7 @@ package model.set;
 import model.moves.Move;
 import model.moves.SpecialMove;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,14 +15,16 @@ public class PieceType {
     private List<Move> moves;
     private List<SpecialMove> specialMoves;
     int weight;
+    Image[] icons;
 
-    public PieceType(int id, String name, String shortName, List<Move> moves, int weight) {
+    public PieceType(int id, String name, String shortName, List<Move> moves, int weight, Image[] icons) {
 		this.id = id;
         this.name = name;
         this.shortName = shortName;
         this.moves = moves;
         this.specialMoves = new ArrayList<SpecialMove>();
         this.weight = weight;
+        this.icons = icons;
     }
 
     public void addSpecialMoves(List<SpecialMove> specialMoves) {
@@ -50,6 +53,14 @@ public class PieceType {
 
     public int getWeight() {
         return weight;
+    }
+
+    public Image getIcon(int playerId) {
+        try {
+            return icons[playerId];
+        } catch (Exception ex) {
+            return null;
+        }
     }
 
     public boolean equals(PieceType type) {

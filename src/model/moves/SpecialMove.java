@@ -148,7 +148,6 @@ public class SpecialMove {
             }
         }
 
-        List<Position> actualFree = new ArrayList<Position>();
         for (Position position : free) {
             Position actualPosition = new Position(
                     start.getX() + sign * position.getX(),
@@ -159,8 +158,6 @@ public class SpecialMove {
             if (noPiece == null || noPiece.getPieceType() != null) {
                 return arrangements;
             }
-
-            actualFree.add(actualPosition);
         }
 
         if (actualPrey != null) {

@@ -108,13 +108,13 @@
 		\end{center}
 	\end{frame}
 
-   % \begin{frame}{Искусственный интеллект.}
-	%	\begin{itemize}
-     %          \item Для работы интеллекта требуется оценочная функция позиции и список всех возможных ходов, также необходимо создавать копии объекта Game.
-      %  \end{itemize}
-       % \begin{center}
-		%	     \includegraphics[scale=0.33]{gameAI.png}
-		%\end{center}
-	%\end{frame}
+    \begin{frame}{Искусственный интеллект.}
+		\begin{itemize}
+               \item Для работы интеллекта требуется оценочная функция позиции и список всех возможных ходов, также необходимо создавать копии объекта Game.
+        \end{itemize}
+        \begin{center}
+			     \includegraphics[scale=0.33]{gameAI.png}
+		\end{center}
+	\end{frame}
 	
 \end{document} 

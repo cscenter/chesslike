@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 <game>
 
+    <players number = "2"/>
+
     <board xsize = "8" ysize = "8">
 
         <rect x = "1" y = "1" xsize = "8" ysize = "8"/>
@@ -8,6 +10,9 @@
     </board>
 
     <piece id = "1" name = "King" short = "Kg" weight = "1000">
+
+        <image player = "1" address = "./images/Chess/king_b.png"/>
+        <image player = "2" address = "./images/Chess/king_w.png"/>
 
         <moves>
             <jump x = "0" y = "1"/>
@@ -56,6 +61,9 @@
 
     <piece id = "2" name = "Queen" short = "Qn" weight = "9">
 
+        <image player = "1" address = "./images/Chess/queen_b.png"/>
+        <image player = "2" address = "./images/Chess/queen_w.png"/>
+
         <moves>
             <slide x = "0" y = "1"/>
             <slide x = "1" y = "0"/>
@@ -73,6 +81,9 @@
 
     <piece id = "3" name = "Rook" short = "Rk" weight = "5">
 
+        <image player = "1" address = "./images/Chess/rook_b.png"/>
+        <image player = "2" address = "./images/Chess/rook_w.png"/>
+
         <moves>
             <slide x = "0" y = "1"/>
             <slide x = "1" y = "0"/>
@@ -86,6 +97,9 @@
 
     <piece id = "4" name = "Bishop" short = "Bp" weight = "3">
 
+        <image player = "1" address = "./images/Chess/bishop_b.png"/>
+        <image player = "2" address = "./images/Chess/bishop_w.png"/>
+
         <moves>
             <slide x = "1" y = "1"/>
             <slide x = "1" y = "-1"/>
@@ -98,6 +112,9 @@
     </piece>
 
     <piece id = "5" name = "Knight" short = "Kt" weight = "3">
+
+        <image player = "1" address = "./images/Chess/knight_b.png"/>
+        <image player = "2" address = "./images/Chess/knight_w.png"/>
 
         <moves>
             <jump x = "2" y = "1"/>
@@ -115,6 +132,9 @@
     </piece>
 
     <piece id = "6" name = "Pawn" short = "Pn" weight = "1">
+
+        <image player = "1" address = "./images/Chess/pawn_b.png"/>
+        <image player = "2" address = "./images/Chess/pawn_w.png"/>
 
         <moves>
             <jump x = "0" y = "1"/>

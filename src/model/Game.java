@@ -11,6 +11,7 @@ import model.set.PieceType;
 import model.set.Player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Iterator;
 
@@ -23,6 +24,8 @@ public class Game implements Cloneable {
     private List<Player> turns;
     private Player currentPlayer;
     private int currentTurn;
+
+	private boolean endGame;
 
     public Game(
             Board board,
@@ -37,6 +40,8 @@ public class Game implements Cloneable {
 
         currentTurn = 0;
         currentPlayer = turns.get(currentTurn);
+
+        endGame = false;
     }
 
     public List<Position> getDestinations(int x, int y) {
@@ -91,7 +96,7 @@ public class Game implements Cloneable {
 
         Piece piece = board.getPiece(start);
 
-        if (piece == null || piece.getPieceType() == null || !piece.getPlayer().equals(currentPlayer)) {
+        if (endGame || piece == null || piece.getPieceType() == null || !piece.getPlayer().equals(currentPlayer)) {
             return false;
         }
 
@@ -101,6 +106,12 @@ public class Game implements Cloneable {
             if (destination.equals(dest)) {
                 piece.setLastMoveId(-1);
 
+				try {
+                    if (board.getPiece(dest).getPieceType().getWeight() > 100) {
+                        endGame = true;
+                    }
+                } catch (Exception e) {}
+				
                 board.putPiece(piece, dest);
                 board.putPiece(Piece.FREE_SQUARE, start);
 
@@ -109,30 +120,46 @@ public class Game implements Cloneable {
             }
         }
 
-        ArrayList<Entry<Integer, ArrayList<SpecialMove.Arrangement>>> allArrangements = getArrangements(start);
+        if (!valid) {
 
-        for (Entry<Integer, ArrayList<SpecialMove.Arrangement>> block : allArrangements) {
-            if (block.getValue() != null
-                    && block.getValue().size() != 0
-                    && block.getValue().get(1) != null
-                    && block.getValue().get(1).getFinish()!= null
-                    && block.getValue().get(1).getFinish().equals(dest)) {
-                for (SpecialMove.Arrangement arrangement : block.getValue()) {
-                    if (arrangement.getStart()!= null) {
-                        if (arrangement.getFinish() == null) {
-                            board.putPiece(Piece.FREE_SQUARE, arrangement.getStart());
-                        } else {
-                            piece = board.getPiece(arrangement.getStart());
-                            piece.setLastMoveId(block.getKey());
+            ArrayList<Entry<Integer, ArrayList<SpecialMove.Arrangement>>> allArrangements = getArrangements(start);
 
-                            board.putPiece(piece, arrangement.getFinish());
-                            board.putPiece(Piece.FREE_SQUARE, arrangement.getStart());
+            for (Entry<Integer, ArrayList<SpecialMove.Arrangement>> block : allArrangements) {
+                if (block.getValue() != null
+                        && block.getValue().size() != 0
+                        && block.getValue().get(1) != null
+                        && block.getValue().get(1).getFinish() != null
+                        && block.getValue().get(1).getFinish().equals(dest)) {
+                    for (SpecialMove.Arrangement arrangement : block.getValue()) {
+                        if (arrangement.getStart() != null) {
+                            if (arrangement.getFinish() == null) {
+                                try {
+                                    if (board.getPiece(arrangement.getStart()).getPieceType().getWeight() > 100) {
+                                        endGame = true;
+                                    }
+                                } catch (Exception e) {}
 
-                            valid = true;
+                                board.putPiece(Piece.FREE_SQUARE, arrangement.getStart());
+                            } else {
+                                piece = board.getPiece(arrangement.getStart());
+                                piece.setLastMoveId(block.getKey());
+
+                                try {
+                                    if (board.getPiece(arrangement.getFinish()).getPieceType().getWeight() > 100) {
+                                        endGame = true;
+                                    }
+                                } catch (Exception e) {}
+
+                                board.putPiece(piece, arrangement.getFinish());
+                                board.putPiece(Piece.FREE_SQUARE, arrangement.getStart());
+
+                                valid = true;
+                            }
                         }
                     }
                 }
             }
+
         }
 
         if (valid) {
@@ -143,6 +170,59 @@ public class Game implements Cloneable {
         }
     }
 
+	public int[][] getTypes(Position start) {
+        return getTypes(start.getX(), start.getY());
+    }
+
+    public int[][] getTypes(int x, int y) {
+        int[][] s = new int[board.getXSize()][board.getYSize()];
+
+        for (int[] row: s)
+            Arrays.fill(row, 0);
+
+        if (endGame) {
+            return s;
+        }
+
+        try {
+            if (!board.getPiece(x, y).getPlayer().equals(currentPlayer)) {
+                return s;
+            }
+        } catch (Exception e) {
+            return s;
+        }
+
+        List<Position> destinations = getDestinations(x, y);
+        for (Position destination : destinations) {
+            if (board.getPiece(destination).getPieceType() == null) {
+                s[destination.getX()][destination.getY()] = 1;
+            } else {
+                s[destination.getX()][destination.getY()] = 2;
+            }
+        }
+
+        ArrayList<Entry<Integer, ArrayList<SpecialMove.Arrangement>>> blocks = getArrangements(x, y);
+        for (Entry<Integer, ArrayList<SpecialMove.Arrangement>> block : blocks) {
+
+            ArrayList<SpecialMove.Arrangement> arrangements = block.getValue();
+            if (arrangements == null || arrangements.size() < 2) {
+                continue;
+            }
+
+            if(arrangements.get(0) != null && arrangements.get(0).getStart() != null) {
+                Position preyPosition = block.getValue().get(0).getStart();
+                s[preyPosition.getX()][preyPosition.getY()] = 2;
+            }
+
+            if(block.getValue().get(1) != null) {
+                Position destination = block.getValue().get(1).getFinish();
+                s[destination.getX()][destination.getY()] = 1;
+            }
+        }
+
+        return s;
+    }
+	
     public String[][] print() {
         return print(board);
     }
@@ -290,14 +370,35 @@ public class Game implements Cloneable {
  		for (int x = 0; x < xSize; ++x) {
 			for (int y = 0; y < ySize; ++y) {
 				Piece ownPiece = board.getPiece(x, y);
-				Position startPosition = new Position(x, y);
+				
 				if (currentPlayer.equals(ownPiece.getPlayer())) {
-					List<Position> ownDestinations = getDestinations(x, y);
-					Iterator<Position> it = ownDestinations.iterator();
-					while (it.hasNext()) {
-						Position destPosition = it.next();
+					
+					Position startPosition = new Position(x, y);
+					
+					List<Position> destPositions = getDestinations(x, y);
+					for (Position destPosition : destPositions) {
 						destinations.add(new Route(startPosition, destPosition));
 					}
+					
+					ArrayList<Entry<Integer, ArrayList<SpecialMove.Arrangement>>> blocks = getArrangements(x, y);
+					for (Entry<Integer, ArrayList<SpecialMove.Arrangement>> block : blocks) {
+
+						ArrayList<SpecialMove.Arrangement> arrangements = block.getValue();
+						if (arrangements == null || arrangements.size() < 2) {
+							continue;
+						}
+
+						if(arrangements.get(0) != null && arrangements.get(0).getStart() != null) {
+							Position preyPosition = block.getValue().get(0).getStart();
+							destinations.add(new Route(startPosition, preyPosition));
+						}
+
+						if(block.getValue().get(1) != null) {
+							Position destination = block.getValue().get(1).getFinish();
+							destinations.add(new Route(startPosition, destination));
+						}
+					}
+				//
 				}
 			}
 		}
