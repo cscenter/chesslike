@@ -48,8 +48,16 @@ public class RulesParser {
 
             Board board = new Board(
                     Integer.parseInt(eBoard.getAttribute("xsize")),
-                    Integer.parseInt(eBoard.getAttribute("xsize"))
+                    Integer.parseInt(eBoard.getAttribute("ysize"))
             );
+
+            Image boardImage;
+
+            try {
+                boardImage = ImageIO.read(new File(eBoard.getAttribute("address")));
+            } catch (Exception e) {
+                boardImage = null;
+            }
 
             NodeList eRects = eBoard.getElementsByTagName("rect");
             for (int i = 0; i < eRects.getLength(); i++) {
@@ -354,7 +362,7 @@ public class RulesParser {
                 turnsList.add(turns.get(i));
             }
 
-            return new Game(board, pieceTypes, players, turnsList);
+            return new Game(board, pieceTypes, players, turnsList, boardImage);
 
         } catch (Exception e) {
             e.printStackTrace();

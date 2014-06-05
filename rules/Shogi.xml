@@ -1,13 +1,18 @@
 <?xml version="1.0"?>
 <game>
 
-    <board xsize = "9" ysize = "9">
+    <players number = "2"/>
+
+    <board xsize = "9" ysize = "9" address = "./images/Shogi/board.png">
 
         <rect x = "1" y = "1" xsize = "9" ysize = "9"/>
 
     </board>
 
     <piece id = "1" name = "King" short = "Kg" weight = "1000">
+
+        <image player = "1" address = "./images/Shogi/king_o.png"/>
+        <image player = "2" address = "./images/Shogi/king_y.png"/>
 
         <moves>
             <jump x = "0" y = "1"/>
@@ -26,6 +31,9 @@
 
     <piece id = "2" name = "Rook" short = "Rk" weight = "5">
 
+        <image player = "1" address = "./images/Shogi/rook_o.png"/>
+        <image player = "2" address = "./images/Shogi/rook_y.png"/>
+
         <moves>
             <slide x = "0" y = "1"/>
             <slide x = "1" y = "0"/>
@@ -39,6 +47,9 @@
 
     <piece id = "3" name = "Bishop" short = "Bp" weight = "3">
 
+        <image player = "1" address = "./images/Shogi/bishop_o.png"/>
+        <image player = "2" address = "./images/Shogi/bishop_y.png"/>
+
         <moves>
             <slide x = "1" y = "1"/>
             <slide x = "1" y = "-1"/>
@@ -51,6 +62,9 @@
     </piece>
 
     <piece id = "4" name = "Gold" short = "Gd" weight = "4">
+
+        <image player = "1" address = "./images/Shogi/gold_o.png"/>
+        <image player = "2" address = "./images/Shogi/gold_y.png"/>
 
         <moves>
             <jump x = "0" y = "1"/>
@@ -67,6 +81,9 @@
 
     <piece id = "5" name = "Silver" short = "Sr" weight = "3">
 
+        <image player = "1" address = "./images/Shogi/silver_o.png"/>
+        <image player = "2" address = "./images/Shogi/silver_y.png"/>
+
         <moves>
             <jump x = "0" y = "1"/>
             <jump x = "1" y = "1"/>
@@ -80,6 +97,9 @@
     </piece>
 
     <piece id = "6" name = "Knight" short = "Kt" weight = "2">
+
+        <image player = "1" address = "./images/Shogi/knight_o.png"/>
+        <image player = "2" address = "./images/Shogi/knight_y.png"/>
 
         <moves>
             <jump x = "2" y = "1"/>
@@ -98,6 +118,9 @@
 
     <piece id = "7" name = "Lance" short = "Le" weight = "2">
 
+        <image player = "1" address = "./images/Shogi/lance_o.png"/>
+        <image player = "2" address = "./images/Shogi/lance_y.png"/>
+
         <moves>
             <slide x = "0" y = "1"/>
         </moves>
@@ -108,6 +131,9 @@
 
     <piece id = "8" name = "Pawn" short = "Pn" weight = "1">
 
+        <image player = "1" address = "./images/Shogi/pawn_o.png"/>
+        <image player = "2" address = "./images/Shogi/pawn_y.png"/>
+
         <moves>
             <jump x = "0" y = "1"/>
         </moves>
@@ -116,101 +142,7 @@
 
     </piece>
 
-    <piece id = "9" name = "Promoted Rook" short = "PR" weight = "7">
-
-        <moves>
-            <slide x = "0" y = "1"/>
-            <slide x = "1" y = "0"/>
-            <slide x = "0" y = "-1"/>
-            <slide x = "-1" y = "0"/>
-            <jump x = "1" y = "1"/>
-            <jump x = "1" y = "-1"/>
-            <jump x = "-1" y = "1"/>
-            <jump x = "-1" y = "-1"/>
-        </moves>
-
-        <captures diff = "0"/>
-
-    </piece>
-
-    <piece id = "10" name = "Promoted Bishop" short = "PB" weight = "6">
-
-        <moves>
-            <slide x = "1" y = "1"/>
-            <slide x = "1" y = "-1"/>
-            <slide x = "-1" y = "1"/>
-            <slide x = "-1" y = "-1"/>
-            <jump x = "0" y = "1"/>
-            <jump x = "1" y = "0"/>
-            <jump x = "0" y = "-1"/>
-            <jump x = "-1" y = "0"/>
-        </moves>
-
-        <captures diff="0"/>
-
-    </piece>
-
-    <piece id = "11" name = "Promoted Silver" short = "PS" weight = "4">
-
-        <moves>
-            <jump x = "0" y = "1"/>
-            <jump x = "1" y = "0"/>
-            <jump x = "0" y = "-1"/>
-            <jump x = "-1" y = "0"/>
-            <jump x = "1" y = "1"/>
-            <jump x = "-1" y = "1"/>
-        </moves>
-
-        <captures diff = "0"/>
-
-    </piece>
-
-    <piece id = "12" name = "Promoted Knight" short = "PK" weight = "4">
-
-        <moves>
-            <jump x = "0" y = "1"/>
-            <jump x = "1" y = "0"/>
-            <jump x = "0" y = "-1"/>
-            <jump x = "-1" y = "0"/>
-            <jump x = "1" y = "1"/>
-            <jump x = "-1" y = "1"/>
-        </moves>
-
-        <captures diff = "0"/>
-
-    </piece>
-
-    <piece id = "13" name = "Promoted Lance" short = "PL" weight = "4">
-
-        <moves>
-            <jump x = "0" y = "1"/>
-            <jump x = "1" y = "0"/>
-            <jump x = "0" y = "-1"/>
-            <jump x = "-1" y = "0"/>
-            <jump x = "1" y = "1"/>
-            <jump x = "-1" y = "1"/>
-        </moves>
-
-        <captures diff = "0"/>
-
-    </piece>
-
-    <piece id = "14" name = "Promoted Pawn" short = "PP" weight = "4">
-
-        <moves>
-            <jump x = "0" y = "1"/>
-            <jump x = "1" y = "0"/>
-            <jump x = "0" y = "-1"/>
-            <jump x = "-1" y = "0"/>
-            <jump x = "1" y = "1"/>
-            <jump x = "-1" y = "1"/>
-        </moves>
-
-        <captures diff = "0"/>
-
-    </piece>
-
-    <player id = "1" color = "black" name = "Blacks" orientation = "down" turn = "1">
+    <player id = "1" color = "black" name = "Young" orientation = "down" turn = "1">
 
         <start id = "8" x = "1" y = "7"/>
         <start id = "8" x = "2" y = "7"/>
@@ -235,7 +167,7 @@
 
     </player>
 
-    <player id = "2" color = "white" name = "Whites" orientation = "up" turn = "2">
+    <player id = "2" color = "white" name = "Old" orientation = "up" turn = "2">
 
         <start id = "8" x = "1" y = "3"/>
         <start id = "8" x = "2" y = "3"/>

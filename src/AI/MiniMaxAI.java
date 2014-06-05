@@ -49,10 +49,10 @@ public class MiniMaxAI implements AI {
 	}
 	
 	public Entry<Integer, Route> miniMax(int ownDepth, Game ownGame) {
-			
-		Entry<Integer, Route> answer = new Entry(-2500, null);
 		
 		ArrayList<Route> destinations = ownGame.allDestinations();
+		
+		Entry<Integer, Route> answer = new Entry(-2500, destinations.get(0));
 		
 		for (int i = 0; i < destinations.size(); ++i) {
 			try {
@@ -62,25 +62,31 @@ public class MiniMaxAI implements AI {
 				Position dest = destinations.get(i).getDestPosition();
 				
 				sonGame.move(start, dest);
-				if (ownDepth == 1) {
-					int ownEstimation = -sonGame.estimation();
-					if (answer.getKey() < ownEstimation) {
-						answer = new Entry(ownEstimation, new Route(start, dest));
-					} else {
-						if (answer.getKey() == ownEstimation) {
-							if (choice.nextInt(modulus) == 0) {
-								answer = new Entry(ownEstimation, new Route(start, dest));
+				
+				int ownEstimation = -sonGame.estimation();
+				
+				if (ownEstimation > 500) {
+					answer = new Entry(ownEstimation, new Route(start, dest)); 
+				} else {
+					if (ownDepth == 1) {
+						if (answer.getKey() < ownEstimation) {
+							answer = new Entry(ownEstimation, new Route(start, dest));
+						} else {
+							if (answer.getKey() == ownEstimation) {
+								if (choice.nextInt(modulus) == 0) {
+									answer = new Entry(ownEstimation, new Route(start, dest));
+								}
 							}
 						}
-					}
-				} else {
-					Entry<Integer, Route> candidate = miniMax(ownDepth - 1, sonGame);
-					if (answer.getKey() < -candidate.getKey()) {
-						answer = new Entry(-candidate.getKey(), new Route(start, dest));
 					} else {
-						if (answer.getKey() == -candidate.getKey()) {
-							if (choice.nextInt(modulus) == 0) {
-								answer = new Entry(-candidate.getKey(), new Route(start, dest));
+						Entry<Integer, Route> candidate = miniMax(ownDepth - 1, sonGame);
+						if (answer.getKey() < -candidate.getKey()) {
+							answer = new Entry(-candidate.getKey(), new Route(start, dest));
+						} else {
+							if (answer.getKey() == -candidate.getKey()) {
+								if (choice.nextInt(modulus) == 0) {
+									answer = new Entry(-candidate.getKey(), new Route(start, dest));
+								}
 							}
 						}
 					}

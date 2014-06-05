@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 <game>
 
+    <players number = "2"/>
+
     <board xsize = "8" ysize = "8">
 
         <rect x = "1" y = "1" xsize = "8" ysize = "8"/>
@@ -8,6 +10,9 @@
     </board>
 
     <piece id = "1" name = "King" short = "Kg" weight = "1000">
+
+        <image player = "1" address = "./images/Maharajah/king_b.png"/>
+        <image player = "2" address = "./images/Maharajah/king_w.png"/>
 
         <moves>
             <jump x = "0" y = "1"/>
@@ -22,9 +27,42 @@
 
         <captures diff = "0"/>
 
+        <special>
+            <self x = "-2" y = "0"/>
+            <companion id = "3" moved = "0" x = "-3" y = "0" xd = "-1" yd = "0"/>
+            <free x = "-1" y = "0"/>
+            <free x = "-2" y = "0"/>
+        </special>
+
+        <special>
+            <self x = "-2" y = "0"/>
+            <companion id = "3" moved = "0" x = "-4" y = "0" xd = "-1" yd = "0"/>
+            <free x = "-1" y = "0"/>
+            <free x = "-2" y = "0"/>
+            <free x = "-3" y = "0"/>
+        </special>
+
+        <special>
+            <self x = "2" y = "0"/>
+            <companion id = "3" moved = "0" x = "3" y = "0" xd = "1" yd = "0"/>
+            <free x = "1" y = "0"/>
+            <free x = "2" y = "0"/>
+        </special>
+
+        <special>
+            <self x = "2" y = "0"/>
+            <companion id = "3" moved = "0" x = "4" y = "0" xd = "1" yd = "0"/>
+            <free x = "1" y = "0"/>
+            <free x = "2" y = "0"/>
+            <free x = "3" y = "0"/>
+        </special>
+
     </piece>
 
     <piece id = "2" name = "Queen" short = "Qn" weight = "9">
+
+        <image player = "1" address = "./images/Maharajah/queen_b.png"/>
+        <image player = "2" address = "./images/Maharajah/queen_w.png"/>
 
         <moves>
             <slide x = "0" y = "1"/>
@@ -43,6 +81,9 @@
 
     <piece id = "3" name = "Rook" short = "Rk" weight = "5">
 
+        <image player = "1" address = "./images/Maharajah/rook_b.png"/>
+        <image player = "2" address = "./images/Maharajah/rook_w.png"/>
+
         <moves>
             <slide x = "0" y = "1"/>
             <slide x = "1" y = "0"/>
@@ -56,6 +97,9 @@
 
     <piece id = "4" name = "Bishop" short = "Bp" weight = "3">
 
+        <image player = "1" address = "./images/Maharajah/bishop_b.png"/>
+        <image player = "2" address = "./images/Maharajah/bishop_w.png"/>
+
         <moves>
             <slide x = "1" y = "1"/>
             <slide x = "1" y = "-1"/>
@@ -68,6 +112,9 @@
     </piece>
 
     <piece id = "5" name = "Knight" short = "Kt" weight = "3">
+
+        <image player = "1" address = "./images/Maharajah/knight_b.png"/>
+        <image player = "2" address = "./images/Maharajah/knight_w.png"/>
 
         <moves>
             <jump x = "2" y = "1"/>
@@ -85,6 +132,9 @@
     </piece>
 
     <piece id = "6" name = "Pawn" short = "Pn" weight = "1">
+
+        <image player = "1" address = "./images/Maharajah/pawn_b.png"/>
+        <image player = "2" address = "./images/Maharajah/pawn_w.png"/>
 
         <moves>
             <jump x = "0" y = "1"/>
@@ -116,6 +166,9 @@
     </piece>
 
     <piece id = "7" name = "Maharajah" short = "Mh" weight = "1000">
+
+        <image player = "1" address = "./images/Maharajah/fool.png"/>
+        <image player = "2" address = "./images/Maharajah/fool.png"/>
 
         <moves>
             <slide x = "0" y = "1"/>

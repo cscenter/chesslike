@@ -10,6 +10,7 @@ import model.set.Piece;
 import model.set.PieceType;
 import model.set.Player;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,12 +27,14 @@ public class Game implements Cloneable {
     private int currentTurn;
 
 	private boolean endGame;
+    private Image boardImage;
 
     public Game(
             Board board,
             List<PieceType> pieceTypes,
             List<Player> players,
-            List<Player> turns
+            List<Player> turns,
+            Image boardImage
     ) {
         this.board = board;
         this.pieceTypes = pieceTypes;
@@ -42,6 +45,7 @@ public class Game implements Cloneable {
         currentPlayer = turns.get(currentTurn);
 
         endGame = false;
+        this.boardImage = boardImage;
     }
 
     public List<Position> getDestinations(int x, int y) {
@@ -447,5 +451,9 @@ public class Game implements Cloneable {
 		Game newGame = (Game)super.clone();
 		newGame.board = (Board)board.clone();
 		return newGame;
+    }
+
+    public Image getBoardImage() {
+        return boardImage;
     }
 }

@@ -12,7 +12,7 @@ public class ChessLike {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                ex = new MainFrame(RulesParser.parse("./rules/Chess.xml"));
+                ex = new MainFrame("./rules/Maharajah.xml");
                 ex.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 ex.setVisible(true);
             }

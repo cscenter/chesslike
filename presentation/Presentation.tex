@@ -14,71 +14,62 @@
 \usetheme{Warsaw} %Dresden %Warsaw
 \usecolortheme{whale} %wolverine
 %\beamertemplatetransparentcovereddynamicmedium
-\beamertemplateshadingbackground{yellow!20}{yellow!50}
 %\beamertemplategridbackground[15]
 
 \title[]{Шахматоподобные игры}
 \author[Ежков М. Поляков Д.]{Ежков Марк \\Поляков Денис}
-\date{23 мая 2014 г.}
+\date{5 июня 2014 г.}
 
 \begin{document}
 
 	\begin{frame}
 		\maketitle
 	\end{frame}
+	
 	\section{Постановка задачи}	
+	
 	\begin{frame}
 	\frametitle{Основные идеи и принципы}
 	   \begin{block}{}
             \begin{itemize}
-	           \item Возможность играть в произвольные шахматоподобные игры в одном приложения.
-	           \item Правила игры описываются на XML.
-               \item Приложение должно обладать графическим интерфейсом и искусственным интеллектом.
+	           \item Возможность играть в произвольные шахматоподобные игры в одном приложении.
+	           \item Единый способ описания правил любых таких игр на XML.
+               \item Наличие графического интерфейса.
+               \item Наличие искусственного интеллекта, против которого можно играть.
             \end{itemize}
 		\end{block}
 	\end{frame}
 	
 	\section{Описание языка}%
-	\begin{frame}{Параметры игрового поля. Начальная расстановка.}
+	
+	\begin{frame}{Вид доски.}
 		\begin{block}{}
-            \begin{itemize}
-	           \item Наиболее простой и естественной частью языка является описание игрового поля и начальной расстановки фигур.
-            \end{itemize}
-            \begin{center}
-			     \includegraphics[scale=0.33]{gameBoard.png}
-		    \end{center}
+		    \begin{center}
+				\includegraphics[scale=0.5]{descr.png}
+			\end{center}
 		\end{block}
 	\end{frame}
-
-    \begin{frame}{Описание игровых фигур.}
+		
+	\begin{frame}{Игровые фигуры.}
 		\begin{block}{}
-            \begin{itemize}
-	           \item Фигура обладает набором атрибутов: id, weight, image.
-            \end{itemize}
-            \begin{center}
-			     \includegraphics[scale=0.33]{attributes.png}
-		    \end{center}
+        	\begin{center}
+	    		\includegraphics[scale=0.5]{attributes.png}
+    		\end{center}
 		\end{block}
 	\end{frame}
-
-    \begin{frame}{Описание игровых фигур.}
+	
+	\begin{frame}{Виды ходов.}
 		\begin{block}{}
-            \begin{itemize}
-	           \item Простые перемещения и взятия описываются тегами <jump/> и <slide/>.
-            \end{itemize}
-            \begin{center}
-			     \includegraphics[scale=0.33]{pieces.png}
-		    \end{center}
+        	\begin{center}
+	    		\includegraphics[scale=0.5]{move.png}
+    		\end{center}
 		\end{block}
 	\end{frame}
-
-    \begin{frame}{Описание игровых фигур.}
+	
+	\begin{frame}{Начальная расстановка.}
 		\begin{block}{}
-            \begin{itemize}
-	           \item Сложные ходы, например взятие на проходе, описываются тегом <special/>.
-            \end{itemize}
             \begin{center}
-			     \includegraphics[scale=0.33]{special.png}
+			     \includegraphics[scale=0.5]{gameBoard.png}
 		    \end{center}
 		\end{block}
 	\end{frame}
